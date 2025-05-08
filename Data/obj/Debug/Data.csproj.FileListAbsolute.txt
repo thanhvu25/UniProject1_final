@@ -1,0 +1,6 @@
+D:\DATA\DA\DA1\Data\bin\Debug\Data.dll
+D:\DATA\DA\DA1\Data\bin\Debug\Data.pdb
+D:\DATA\DA\DA1\Data\obj\Debug\Data.csproj.AssemblyReference.cache
+D:\DATA\DA\DA1\Data\obj\Debug\Data.csproj.CoreCompileInputs.cache
+D:\DATA\DA\DA1\Data\obj\Debug\Data.dll
+D:\DATA\DA\DA1\Data\obj\Debug\Data.pdb
