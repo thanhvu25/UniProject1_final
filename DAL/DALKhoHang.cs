@@ -13,7 +13,9 @@ namespace DAL
     {
         public DataTable getKhoHang()
         {
-            string sql = "SELECT Kho.MaSP, TenSP, ThuongHieu.TenTH, Kho.SLTon FROM Kho INNER JOIN SanPham ON Kho.MaSP = SanPham.MaSP INNER JOIN ThuongHieu ON SanPham.MaTH = ThuongHieu.MaTH";
+            string sql = "SELECT Kho.MaSP, TenSP, ThuongHieu.TenTH, MaSize, MaMau, SLTon" +
+                        "FROM Kho INNER JOIN SanPham ON Kho.MaSP = SanPham.MaSP" +
+                        "INNER JOIN ThuongHieu ON SanPham.MaSP = ThuongHieu.MaTH";
             return ExecuteQuery(sql);
         }
 
@@ -29,10 +31,12 @@ namespace DAL
 
         public bool themKhoHang(DTOKhoHang kho)
         {
-            string sql = "EXEC sp_ThemKho @MaSP, @SLTon";
+            string sql = "EXEC sp_SuaKho @MaSP, @MaSize, @MaMau, @SLTon";
             var parameters = new Dictionary<string, object>
         {
             {"@MaSP", kho.MaSP},
+            {"@MaSize", kho.MaSize},
+            {"@MaMau", kho.MaMau},
             {"@SLTon", kho.SLTon}
         };
             return ExecuteNonQuery(sql, parameters);
@@ -40,21 +44,25 @@ namespace DAL
 
         public bool suaKhoHang(DTOKhoHang kho)
         {
-            string sql = "EXEC sp_CongThemKho @MaSP, @SoLuongThem";
+            string sql = "EXEC sp_SuaKho @MaSP, @MaSize, @MaMau, @SLTon";
             var parameters = new Dictionary<string, object>
         {
             {"@MaSP", kho.MaSP},
-            {"@SoLuongThem", kho.SLTon}
+            {"@MaSize", kho.MaSize},
+            {"@MaMau", kho.MaMau},
+            {"@SLTon", kho.SLTon}
         };
             return ExecuteNonQuery(sql, parameters);
         }
 
         public bool xoaKhoHang(DTOKhoHang kho)
         {
-            string sql = "EXEC sp_XoaKho @MaSP";
+            string sql = "EXEC sp_XoaKho @MaSP, @MaSize, @MaMau";
             var parameters = new Dictionary<string, object>
         {
-            {"@MaSP", kho.MaSP}
+            {"@MaSP", kho.MaSP},
+            {"@MaSize", kho.MaSize},
+            {"@MaMau", kho.MaMau}
         };
             return ExecuteNonQuery(sql, parameters);
         }

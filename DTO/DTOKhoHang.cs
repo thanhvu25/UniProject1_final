@@ -9,12 +9,16 @@ namespace DTO
     public class DTOKhoHang
     {
         public string MaSP { get; set; }
+        public int MaSize { get; set; }
+        public string MaMau { get; set; }
         public int SLTon { get; set; }
         public DTOKhoHang() {}
-        public DTOKhoHang(string maSP, int sLTon)
+        public DTOKhoHang(string maSP, int maSize, string maMau, int slTon)
         {
-            this.MaSP = maSP;
-            this.SLTon = sLTon;
+            MaSP = maSP;
+            MaSize = maSize;
+            MaMau = maMau;
+            SLTon = slTon;
         }
     }
 }
