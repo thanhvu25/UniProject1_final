@@ -16,6 +16,11 @@ namespace DAL
             string sql = "SELECT SanPham.MaSP, TenSP, TenTH, DonGia, SLTon FROM SanPham LEFT JOIN Kho ON SanPham.MaSP = Kho.MaSP INNER JOIN ThuongHieu ON ThuongHieu.MaTH = SanPham.MaTH";
             return ExecuteQuery(sql);
         }
+        public DataTable getSanPhamForCombo()
+        {
+            string sql = "SELECT MaSP, TenSP FROM SanPham";
+            return ExecuteQuery(sql);
+        }
 
         public int KiemTraMaTrung(string maSP)
         {

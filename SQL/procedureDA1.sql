@@ -3,7 +3,6 @@ GO
 
 -----------------------------------------------------KHÁCH HÀNG----------------------------------------
 CREATE PROCEDURE sp_ThemKhachHang
-    @MaKH CHAR(10) = NULL,
     @HoTen NVARCHAR(30),
     @GioiTinh NVARCHAR(3),
     @DiaChi NVARCHAR(100),
@@ -11,29 +10,33 @@ CREATE PROCEDURE sp_ThemKhachHang
     @HangKH NVARCHAR(20)
 AS
 BEGIN
-    BEGIN
-        DECLARE @MaMoi CHAR(10)
-        SELECT @MaMoi = MAX(MaKH) FROM KhachHang
+	PRINT 'GioiTinh = ' + QUOTENAME(@GioiTinh)
 
-        IF (@MaMoi IS NULL)
-            SET @MaMoi = 'KH000'
 
-        DECLARE @SoMoi INT
-        SET @SoMoi = CAST(SUBSTRING(@MaMoi, 3, 3) AS INT) + 1
+    DECLARE @MaMoi CHAR(10)
+    SELECT @MaMoi = MAX(MaKH) FROM KhachHang
 
-        SET @MaKH = 'KH' + RIGHT('000' + CAST(@SoMoi AS VARCHAR(3)), 3)
-    END
+    IF (@MaMoi IS NULL)
+        SET @MaMoi = 'KH000'
+
+    DECLARE @SoMoi INT
+    SET @SoMoi = CAST(SUBSTRING(@MaMoi, 3, 3) AS INT) + 1
+
+    SET @MaMoi = 'KH' + RIGHT('000' + CAST(@SoMoi AS VARCHAR(3)), 3)
 
     -- Thêm khách hàng
     INSERT INTO KhachHang (MaKH, HoTen, GioiTinh, DiaChi, Sdt, HangKH)
-    VALUES (@MaKH, @HoTen, @GioiTinh, @DiaChi, @Sdt, @HangKH)
+    VALUES (@MaMoi, @HoTen, @GioiTinh, @DiaChi, @Sdt, @HangKH)
 END
 EXEC sp_ThemKhachHang 
     @HoTen = N'Nguyễn Văn An',
     @GioiTinh = N'Nam',
     @DiaChi = N'Hà Nội',
-    @Sdt = '0987654321',
+    @Sdt = '0987654322',
     @HangKH = N'Thân thiết'
+
+sp_helptext 'sp_ThemKhachHang'
+
 
 
 CREATE PROCEDURE sp_SuaKhachHang
@@ -287,38 +290,47 @@ EXEC sp_XoaSanPham @MaSP = '{0}'
 -----------------------------------------------------KHO----------------------------------------
 CREATE PROCEDURE sp_ThemKho
     @MaSP CHAR(10),
+    @MaSize INT,
+    @MaMau CHAR(10),
     @SLTon INT
 AS
 BEGIN
-    INSERT INTO Kho (MaSP, SLTon)
-    VALUES (@MaSP, @SLTon)
+    INSERT INTO Kho (MaSP, MaSize, MaMau, SLTon)
+    VALUES (@MaSP, @MaSize, @MaMau, @SLTon)
 END
---EXEC sp_SuaKho 
---    @MaSP = '{0}',
---    @SLTon = {1}
+--EXEC sp_ThemKho @MaSP = '{0}', 
+--			   @MaSize = {1}, 
+--			   @MaMau = '{2}', 
+--			   @SLTon = {3}
 
-CREATE PROCEDURE sp_CongThemKho
+CREATE PROCEDURE sp_SuaKho
     @MaSP CHAR(10),
-    @SoLuongThem INT
+    @MaSize INT,
+    @MaMau CHAR(10),
+    @SLTon INT
 AS
 BEGIN
     UPDATE Kho
-    SET SLTon = SLTon + @SoLuongThem
-    WHERE MaSP = @MaSP
+    SET SLTon = @SLTon
+    WHERE MaSP = @MaSP AND MaSize = @MaSize AND MaMau = @MaMau
 END
---EXEC sp_CongThemKho 
---    @MaSP = '{0}',
---    @SoLuongThem = {1}
+--EXEC sp_SuaKho @MaSP = '{0}', 
+--			   @MaSize = {1}, 
+--			   @MaMau = '{2}', 
+--			   @SLTon = {3}
 
 CREATE PROCEDURE sp_XoaKho
-    @MaSP CHAR(10)
+    @MaSP CHAR(10),
+    @MaSize INT,
+    @MaMau CHAR(10)
 AS
 BEGIN
     DELETE FROM Kho
-    WHERE MaSP = @MaSP
+    WHERE MaSP = @MaSP AND MaSize = @MaSize AND MaMau = @MaMau
 END
---EXEC sp_XoaKho 
---    @MaSP = '{0}'
+--EXEC sp_XoaKho @MaSP = '{0}', 
+--			   @MaSize = {1}, 
+--			   @MaMau = '{2}'
 
 
 -----------------------------------------------------HDN----------------------------------------

@@ -13,9 +13,7 @@ namespace DAL
     {
         public DataTable getKhoHang()
         {
-            string sql = "SELECT Kho.MaSP, TenSP, ThuongHieu.TenTH, MaSize, MaMau, SLTon" +
-                        "FROM Kho INNER JOIN SanPham ON Kho.MaSP = SanPham.MaSP" +
-                        "INNER JOIN ThuongHieu ON SanPham.MaSP = ThuongHieu.MaTH";
+            string sql = "SELECT Kho.MaSP, TenSP, ThuongHieu.TenTH, MaSize, MaMau, SLTon FROM Kho INNER JOIN SanPham ON Kho.MaSP = SanPham.MaSP INNER JOIN ThuongHieu ON SanPham.MaSP = ThuongHieu.MaTH";
             return ExecuteQuery(sql);
         }
 

@@ -41,7 +41,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="DTOChiTietSP.cs" />
+    <Compile Include="DTO_ChiTietSP.cs" />
     <Compile Include="DTOKhachHang.cs" />
     <Compile Include="DTOKhoHang.cs" />
     <Compile Include="DTOKhuyenMai.cs" />

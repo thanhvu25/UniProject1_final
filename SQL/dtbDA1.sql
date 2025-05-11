@@ -52,8 +52,10 @@ DonGia INT DEFAULT 0
 )
 
 CREATE TABLE Size 
-(MaSize INT PRIMARY KEY,
-TenSize NVARCHAR(20)
+(SizeVN INT PRIMARY KEY,
+SizeUS INT,
+SizeUK INT,
+Centimeter FLOAT
 )
 CREATE TABLE MauSac 
 (MaMau CHAR(10) PRIMARY KEY,
@@ -62,14 +64,18 @@ TenMau NVARCHAR(50)
 
 CREATE TABLE SanPham_Size 
 (MaSP CHAR(10),
-MaSize INT,
-PRIMARY KEY (MaSP, MaSize),
+SizeVN INT,
+PRIMARY KEY (MaSP, SizeVN),
 FOREIGN KEY (MaSP) REFERENCES SanPham(MaSP),
-FOREIGN KEY (MaSize) REFERENCES Size(MaSize)
+FOREIGN KEY (SizeVN) REFERENCES Size(SizeVN)
 )
+--insert into SanPham_Size(MaSP, SizeVN)
+--values('SP001', 35)
+
 CREATE TABLE SanPham_MauSac 
 (MaSP CHAR(10),
 MaMau CHAR(10),
+TenMau NVARCHAR(50),
 PRIMARY KEY (MaSP, MaMau),
 FOREIGN KEY (MaSP) REFERENCES SanPham(MaSP),
 FOREIGN KEY (MaMau) REFERENCES MauSac(MaMau)
@@ -78,11 +84,13 @@ FOREIGN KEY (MaMau) REFERENCES MauSac(MaMau)
 --KHO
 CREATE TABLE Kho
 (MaSP CHAR(10),
-MaSize INT,
+SizeVN INT,
 MaMau CHAR(10),
 SLTon INT DEFAULT 0,
-PRIMARY KEY (MaSP, MaSize, MaMau),
-CONSTRAINT FK_Kho_SanPham FOREIGN KEY (MaSP) REFERENCES SanPham(MaSP) ON UPDATE CASCADE ON DELETE CASCADE
+PRIMARY KEY (MaSP, SizeVN, MaMau),
+CONSTRAINT FK_Kho_SP FOREIGN KEY (MaSP) REFERENCES SanPham(MaSP) ON UPDATE CASCADE ON DELETE CASCADE,
+CONSTRAINT FK_Kho_Size FOREIGN KEY (SizeVN) REFERENCES Size(SizeVN) ON UPDATE CASCADE ON DELETE CASCADE,
+CONSTRAINT FK_Kho_MS FOREIGN KEY (MaMau) REFERENCES MauSac(MaMau) ON UPDATE CASCADE ON DELETE CASCADE
 )
 
 --HÓA ĐƠN NHẬP
@@ -133,14 +141,25 @@ NgayKT DATE,
 GiamGia INT DEFAULT 0
 )
 
+--Size + SP
+SELECT SanPham_Size.MaSP, TenSP, SanPham_Size.SizeVN
+FROM SanPham_Size INNER JOIN SanPham
+ON SanPham_Size.MaSP = SanPham.MaSP
+
+--MauSac + SP + TenMau
+SELECT SanPham.MaSP, TenSP, MauSac.MaMau, TenMau
+FROM SanPham_MauSac INNER JOIN SanPham
+ON SanPham_MauSac.MaSP = SanPham.MaSP INNER JOIN MauSac
+ON SanPham_MauSac.MaMau = MauSac.MaMau
+
 --Kho
-SELECT Kho.MaSP, TenSP, ThuongHieu.TenTH, Kho.SLTon
+SELECT Kho.MaSP, TenSP, ThuongHieu.TenTH, MaSize, MaMau, SLTon
 FROM Kho INNER JOIN SanPham
 ON Kho.MaSP = SanPham.MaSP INNER JOIN ThuongHieu
 ON SanPham.MaSP = ThuongHieu.MaTH
 
 --sản phẩm + slton
-SELECT SanPham.MaSP, TenSP, TenTH, DonGia, SLTon
+SELECT SanPham.MaSP, TenSP, TenTH, Kho.MaSize, Kho.MaMau, DonGia, SLTon
 FROM SanPham INNER JOIN Kho
 ON SanPham.MaSP = Kho.MaSP INNER JOIN ThuongHieu
 ON ThuongHieu. MaTH = SanPham.MaTH

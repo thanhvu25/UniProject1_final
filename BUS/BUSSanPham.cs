@@ -17,6 +17,11 @@ namespace BUS
         {
             return dalsp.getSanPham();
         }
+        public DataTable getSanPhamForCombo()
+        {
+            return dalsp.getSanPhamForCombo();
+        }
+
         public int KiemTraMaTrung(string maSP)
         {
             return dalsp.KiemTraMaTrung(maSP);

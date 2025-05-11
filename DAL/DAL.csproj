@@ -48,6 +48,7 @@
     <Compile Include="DALSanPham.cs" />
     <Compile Include="DALThuongHieu.cs" />
     <Compile Include="DAL_BanHang.cs" />
+    <Compile Include="DAL_ChiTietSP.cs" />
     <Compile Include="DAL_CtHDB.cs" />
     <Compile Include="DAL_CtHDN.cs" />
     <Compile Include="DAL_HDB.cs" />
