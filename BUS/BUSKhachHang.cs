@@ -17,6 +17,10 @@ namespace BUS
         {
             return dalKH.getKhachHang();
         }
+        public DataTable getKhachHangForBH()
+        {
+            return dalKH.getKhachHangForBH();
+        }
         public int KiemTraMaTrung(string maKH)
         {
             return dalKH.KiemTraMaTrung(maKH);

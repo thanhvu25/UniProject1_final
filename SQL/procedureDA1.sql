@@ -290,47 +290,85 @@ EXEC sp_XoaSanPham @MaSP = '{0}'
 -----------------------------------------------------KHO----------------------------------------
 CREATE PROCEDURE sp_ThemKho
     @MaSP CHAR(10),
-    @MaSize INT,
+    @SizeVN INT,
     @MaMau CHAR(10),
     @SLTon INT
 AS
 BEGIN
-    INSERT INTO Kho (MaSP, MaSize, MaMau, SLTon)
-    VALUES (@MaSP, @MaSize, @MaMau, @SLTon)
+    IF EXISTS (SELECT 1 FROM Kho WHERE MaSP = @MaSP AND SizeVN = @SizeVN AND MaMau = @MaMau)
+    BEGIN
+        RAISERROR(N'Dữ liệu đã tồn tại.', 16, 1)
+        RETURN
+    END
+
+    INSERT INTO Kho (MaSP, SizeVN, MaMau, SLTon)
+    VALUES (@MaSP, @SizeVN, @MaMau, @SLTon)
 END
 --EXEC sp_ThemKho @MaSP = '{0}', 
---			   @MaSize = {1}, 
---			   @MaMau = '{2}', 
---			   @SLTon = {3}
+--			      @SizeVN = {1}, 
+--			      @MaMau = '{2}', 
+--			      @SLTon = {3}
 
 CREATE PROCEDURE sp_SuaKho
     @MaSP CHAR(10),
-    @MaSize INT,
+    @SizeVN INT,
     @MaMau CHAR(10),
     @SLTon INT
 AS
 BEGIN
+    IF NOT EXISTS (SELECT 1 FROM Kho WHERE MaSP = @MaSP AND SizeVN = @SizeVN AND MaMau = @MaMau)
+    BEGIN
+        RAISERROR(N'Dữ liệu không tồn tại.', 16, 1)
+        RETURN
+    END
     UPDATE Kho
     SET SLTon = @SLTon
-    WHERE MaSP = @MaSP AND MaSize = @MaSize AND MaMau = @MaMau
+    WHERE MaSP = @MaSP AND SizeVN = @SizeVN AND MaMau = @MaMau
 END
 --EXEC sp_SuaKho @MaSP = '{0}', 
---			   @MaSize = {1}, 
---			   @MaMau = '{2}', 
---			   @SLTon = {3}
+--			     @SizeVN = {1}, 
+--			     @MaMau = '{2}', 
+--			     @SLTon = {3}
+
+CREATE PROCEDURE sp_CongKho
+    @MaSP CHAR(10),
+    @SizeVN INT,
+    @MaMau CHAR(10),
+    @SLTon INT
+AS
+BEGIN
+    -- Kiểm tra tồn tại
+    IF EXISTS (SELECT 1 FROM Kho WHERE MaSP = @MaSP AND SizeVN = @SizeVN AND MaMau = @MaMau)
+    BEGIN
+        -- Cộng dồn số lượng tồn
+        UPDATE Kho
+        SET SLTon = SLTon + @SLTon
+        WHERE MaSP = @MaSP AND SizeVN = @SizeVN AND MaMau = @MaMau
+    END	
+END
+--EXEC sp_CongKho @MaSP = '{0}', 
+--			     @SizeVN = {1}, 
+--			     @MaMau = '{2}', 
+--			     @SLTon = {3}
 
 CREATE PROCEDURE sp_XoaKho
     @MaSP CHAR(10),
-    @MaSize INT,
+    @SizeVN INT,
     @MaMau CHAR(10)
 AS
 BEGIN
+    IF NOT EXISTS (SELECT 1 FROM Kho WHERE MaSP = @MaSP AND SizeVN = @SizeVN AND MaMau = @MaMau)
+    BEGIN
+        RAISERROR(N'Dữ liệu không tồn tại.', 16, 1)
+        RETURN
+    END
+
     DELETE FROM Kho
-    WHERE MaSP = @MaSP AND MaSize = @MaSize AND MaMau = @MaMau
+    WHERE MaSP = @MaSP AND SizeVN = @SizeVN AND MaMau = @MaMau
 END
 --EXEC sp_XoaKho @MaSP = '{0}', 
---			   @MaSize = {1}, 
---			   @MaMau = '{2}'
+--			     @SizeVN = {1}, 
+--			     @MaMau = '{2}'
 
 
 -----------------------------------------------------HDN----------------------------------------

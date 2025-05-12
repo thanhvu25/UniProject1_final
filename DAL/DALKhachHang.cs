@@ -16,6 +16,11 @@ namespace DAL
             string sql = "SELECT * FROM KhachHang";
             return ExecuteQuery(sql);
         }
+        public DataTable getKhachHangForBH()
+        {
+            string sql = "SELECT MaKH, HoTen, HangKH FROM KhachHang";
+            return ExecuteQuery(sql);
+        }
 
         public int KiemTraMaTrung(string maKH)
         {

@@ -13,7 +13,7 @@ namespace DAL
     {
         public DataTable getKhoHang()
         {
-            string sql = "SELECT Kho.MaSP, TenSP, ThuongHieu.TenTH, MaSize, MaMau, SLTon FROM Kho INNER JOIN SanPham ON Kho.MaSP = SanPham.MaSP INNER JOIN ThuongHieu ON SanPham.MaSP = ThuongHieu.MaTH";
+            string sql = "SELECT Kho.MaSP, TenSP, ThuongHieu.TenTH, SizeVN, TenMau, SLTon FROM Kho INNER JOIN SanPham ON Kho.MaSP = SanPham.MaSP INNER JOIN ThuongHieu ON SanPham.MaTH = ThuongHieu.MaTH INNER JOIN MauSac ON MauSac.MaMau = Kho.MaMau";
             return ExecuteQuery(sql);
         }
 
@@ -29,24 +29,36 @@ namespace DAL
 
         public bool themKhoHang(DTOKhoHang kho)
         {
-            string sql = "EXEC sp_SuaKho @MaSP, @MaSize, @MaMau, @SLTon";
+            string sql = "EXEC sp_ThemKho @MaSP, @SizeVN, @MaMau, @SLTon";
             var parameters = new Dictionary<string, object>
         {
             {"@MaSP", kho.MaSP},
-            {"@MaSize", kho.MaSize},
+            {"@SizeVN", kho.SizeVN},
             {"@MaMau", kho.MaMau},
             {"@SLTon", kho.SLTon}
         };
             return ExecuteNonQuery(sql, parameters);
         }
 
-        public bool suaKhoHang(DTOKhoHang kho)
+        public bool congKhoHang(DTOKhoHang kho)
         {
-            string sql = "EXEC sp_SuaKho @MaSP, @MaSize, @MaMau, @SLTon";
+            string sql = "EXEC sp_CongKho @MaSP, @SizeVN, @MaMau, @SLTon";
             var parameters = new Dictionary<string, object>
         {
             {"@MaSP", kho.MaSP},
-            {"@MaSize", kho.MaSize},
+            {"@SizeVN" , kho.SizeVN},
+            {"@MaMau", kho.MaMau},
+            {"@SLTon", kho.SLTon}
+        };
+            return ExecuteNonQuery(sql, parameters);
+        }
+        public bool suaKhoHang(DTOKhoHang kho)
+        {
+            string sql = "EXEC sp_SuaKho @MaSP, @SizeVN, @MaMau, @SLTon";
+            var parameters = new Dictionary<string, object>
+        {
+            {"@MaSP", kho.MaSP},
+            {"@SizeVN" , kho.SizeVN},
             {"@MaMau", kho.MaMau},
             {"@SLTon", kho.SLTon}
         };
@@ -55,11 +67,11 @@ namespace DAL
 
         public bool xoaKhoHang(DTOKhoHang kho)
         {
-            string sql = "EXEC sp_XoaKho @MaSP, @MaSize, @MaMau";
+            string sql = "EXEC sp_XoaKho @MaSP, @SizeVN, @MaMau";
             var parameters = new Dictionary<string, object>
         {
             {"@MaSP", kho.MaSP},
-            {"@MaSize", kho.MaSize},
+            {"@SizeVN" , kho.SizeVN},
             {"@MaMau", kho.MaMau}
         };
             return ExecuteNonQuery(sql, parameters);

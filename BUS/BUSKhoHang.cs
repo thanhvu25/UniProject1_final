@@ -21,15 +21,19 @@ namespace BUS
         {
             return dalkho.KiemTraMaTrung(maSP);
         }
-        public bool themNV(DTOKhoHang kho)
+        public bool themSP(DTOKhoHang kho)
         {
             return dalkho.themKhoHang(kho);
         }
-        public bool suaNV(DTOKhoHang kho)
+        public bool congSP(DTOKhoHang kho)
+        {
+            return dalkho.congKhoHang(kho);
+        }
+        public bool suaSP(DTOKhoHang kho)
         {
             return dalkho.suaKhoHang(kho);
         }
-        public bool xoaNV(DTOKhoHang kho)
+        public bool xoaSP(DTOKhoHang kho)
         {
             return dalkho.themKhoHang(kho);
         }

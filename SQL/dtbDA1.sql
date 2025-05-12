@@ -140,6 +140,9 @@ NgayBD DATE,
 NgayKT DATE,
 GiamGia INT DEFAULT 0
 )
+ --
+SELECT MaKH, HoTen, HangKH
+FROM KhachHang
 
 --Size + SP
 SELECT SanPham_Size.MaSP, TenSP, SanPham_Size.SizeVN
@@ -147,19 +150,20 @@ FROM SanPham_Size INNER JOIN SanPham
 ON SanPham_Size.MaSP = SanPham.MaSP
 
 --MauSac + SP + TenMau
-SELECT SanPham.MaSP, TenSP, MauSac.MaMau, TenMau
+SELECT SanPham.MaSP, TenSP, MauSac.MaMau, MauSac.TenMau
 FROM SanPham_MauSac INNER JOIN SanPham
 ON SanPham_MauSac.MaSP = SanPham.MaSP INNER JOIN MauSac
 ON SanPham_MauSac.MaMau = MauSac.MaMau
 
 --Kho
-SELECT Kho.MaSP, TenSP, ThuongHieu.TenTH, MaSize, MaMau, SLTon
+SELECT Kho.MaSP, TenSP, ThuongHieu.TenTH, SizeVN, TenMau, SLTon
 FROM Kho INNER JOIN SanPham
 ON Kho.MaSP = SanPham.MaSP INNER JOIN ThuongHieu
-ON SanPham.MaSP = ThuongHieu.MaTH
+ON SanPham.MaTH = ThuongHieu.MaTH INNER JOIN MauSac
+ON MauSac.MaMau = Kho.MaMau
 
 --sản phẩm + slton
-SELECT SanPham.MaSP, TenSP, TenTH, Kho.MaSize, Kho.MaMau, DonGia, SLTon
+SELECT SanPham.MaSP, TenSP, TenTH, Kho.SizeVN, Kho.MaMau, DonGia, SLTon
 FROM SanPham INNER JOIN Kho
 ON SanPham.MaSP = Kho.MaSP INNER JOIN ThuongHieu
 ON ThuongHieu. MaTH = SanPham.MaTH
