@@ -39,14 +39,15 @@ namespace DAL
             string bd = km.NgayBD.ToString("yyyy/MM/dd");
             string kt = km.NgayKT.ToString("yyyy/MM/dd");
 
-            string sql = "EXEC sp_ThemKhuyenMai @MaKM, @MaSP, @NgayBD, @NgayKT, @GiamGia";
+            string sql = "EXEC sp_ThemKhuyenMai @MaKM, @MaSP, @NgayBD, @NgayKT, @GiamGia, @HangKH";
             var parameters = new Dictionary<string, object>
             {
                 { "@MaKM", km.MaKM },
                 { "@MaSP",  km.MaSP },
                 { "@NgayBD", bd },
                 { "@NgayKT", kt },
-                { "@GiamGia", km.GiamGia }
+                { "@GiamGia", km.GiamGia },
+                { "@HangKH", km.HangKH }
             };
             return ExecuteNonQuery(sql, parameters);
         }
@@ -55,14 +56,15 @@ namespace DAL
             string bd = km.NgayBD.ToString("yyyy/MM/dd");
             string kt = km.NgayKT.ToString("yyyy/MM/dd");
 
-            string sql = "EXEC sp_SuaKhuyenMai @MaKM, @MaSP, @NgayBD, @NgayKT, @GiamGia";
+            string sql = "EXEC sp_SuaKhuyenMai @MaKM, @MaSP, @NgayBD, @NgayKT, @GiamGia, @HangKH";
             var parameters = new Dictionary<string, object>
             {
                 { "@MaKM", km.MaKM },
                 { "@MaSP",  km.MaSP },
                 { "@NgayBD", bd },
                 { "@NgayKT", kt },
-                { "@GiamGia", km.GiamGia }
+                { "@GiamGia", km.GiamGia },
+                { "@HangKH", km.HangKH }
             };
             return ExecuteNonQuery(sql, parameters);
         }

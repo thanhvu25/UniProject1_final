@@ -13,14 +13,16 @@ namespace DTO
         public DateTime NgayBD { get; set; }
         public DateTime NgayKT { get; set; }
         public int GiamGia { get; set; }
+        public string HangKH { get; set; }
         public DTOKhuyenMai() { }
-        public DTOKhuyenMai(string maKM, string maSP, DateTime ngayBD, DateTime ngayKT, int giamGia)
+        public DTOKhuyenMai(string maKM, string maSP, DateTime ngayBD, DateTime ngayKT, int giamGia, string hangKH)
         {
             this.MaKM = maKM;
             this.MaSP = maSP;
             this.NgayBD = ngayBD;
             this.NgayKT = ngayKT;
             this.GiamGia = giamGia;
+            this.HangKH = hangKH;
         }
     }
 }

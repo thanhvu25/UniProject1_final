@@ -21,7 +21,15 @@ namespace DAL
             string sql = "SELECT MaKH, HoTen, HangKH FROM KhachHang";
             return ExecuteQuery(sql);
         }
-
+        public DataTable getKhachHang_HD(string MaKH)
+        {
+            string sql = "SELECT KhachHang.MaKH, HoTen, HDB.MaHDB, NgayBan, HDB.DonGia, TenSP, SizeVN, TenMau FROM KhachHang INNER JOIN ChiTietHDB ON KhachHang.MaKH = ChiTietHDB.MaKH INNER JOIN HDB ON HDB.MaHDB = ChiTietHDB.MaHDB INNER JOIN MauSac ON ChiTietHDB.MaMau = MauSac.MaMau INNER JOIN SanPham ON SanPham.MaSP = ChiTietHDB.MaSP WHERE KhachHang.MaKH = @MaKH";
+            var parameters = new Dictionary<string, object>
+            {
+                { "@MaKH", MaKH }
+            };
+            return ExecuteQuery(sql, parameters);
+        }
         public int KiemTraMaTrung(string maKH)
         {
             string sql = "SELECT COUNT(*) FROM KhachHang WHERE MaKH = @MaKH";

@@ -13,7 +13,7 @@ namespace DAL
     {
         public DataTable getSanPham()
         {
-            string sql = "SELECT SanPham.MaSP, TenSP, TenTH, DonGia, SLTon FROM SanPham LEFT JOIN Kho ON SanPham.MaSP = Kho.MaSP INNER JOIN ThuongHieu ON ThuongHieu.MaTH = SanPham.MaTH";
+            string sql = "SELECT SanPham.MaSP, TenSP, TenTH, DonGia, SL = SUM(Kho.SLTon) FROM SanPham LEFT JOIN Kho ON SanPham.MaSP = Kho.MaSP INNER JOIN ThuongHieu ON ThuongHieu.MaTH = SanPham.MaTH GROUP BY SanPham.MaSP, TenSP, TenTH, DonGia";
             return ExecuteQuery(sql);
         }
         public DataTable getSanPhamForCombo()

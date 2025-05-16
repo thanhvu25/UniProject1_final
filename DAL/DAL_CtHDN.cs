@@ -17,38 +17,44 @@ namespace DAL
             return ExecuteQuery(sql);
         }
 
-        public int KiemTraMaTrung(string maHDN)
+        public int KiemTraMaTrung(string maCTN)
         {
-            string sql = "SELECT COUNT(*) FROM ChitietHDN WHERE MaHDN = @MaHDN";
+            string sql = "SELECT COUNT(*) FROM ChitietHDN WHERE MaCTN = @MaCTN";
             var parameters = new Dictionary<string, object>
             {
-                { "@MaHDN", maHDN }
+                { "@MaCTN", maCTN }
             };
             return ExecuteScalar(sql, parameters);
         }
 
         public bool themCtHDN(DTO_CtHDN cthdn)
         {
-            string sql = "EXEC sp_ThemChiTietHDN @MaHDN, @MaSP, @MaTH, @SL, @MaNV";
+            string sql = "EXEC sp_ThemChiTietHDN   @MaHDN,  @MaTH, @MaSP, @SizeVN, @MaMau, @SL, @MaNV";
             var parameters = new Dictionary<string, object>
             {
-                { "@MaHDN", cthdn.MaHDN },
-                { "@MaSP", cthdn.MaSP },
+                {  "@MaHDN", cthdn.MaHDN },
                 { "@MaTH", cthdn.MaTH },
+                { "@MaSP", cthdn.MaSP },
+                { "@SizeVN", cthdn.SizeVN },
+                { "@MaMau", cthdn.MaMau },
                 { "@SL", cthdn.SL },
                 { "@MaNV", cthdn.MaNV }
+            
             };
             return ExecuteNonQuery(sql, parameters);
         }
 
         public bool suaCtHDN(DTO_CtHDN cthdn)
         {
-            string sql = "EXEC sp_SuaChiTietHDN @MaHDN, @MaSP, @MaTH, @SL, @MaNV";
+            string sql = "EXEC sp_SuaChiTietHDN   @MaCTN, @MaTH, @MaSP, @SizeVN,  @MaMau , @SL, @MaNV";
             var parameters = new Dictionary<string, object>
             {
-                { "@MaHDN", cthdn.MaHDN },
-                { "@MaSP", cthdn.MaSP },
+                { "@MaCTN", cthdn.MaCTN },
+                //{  "@MaHDN", cthdn.MaHDN },
                 { "@MaTH", cthdn.MaTH },
+                { "@MaSP", cthdn.MaSP },
+                { "@SizeVN", cthdn.SizeVN },
+                { "@MaMau", cthdn.MaMau },
                 { "@SL", cthdn.SL },
                 { "@MaNV", cthdn.MaNV }
             };
@@ -57,11 +63,10 @@ namespace DAL
 
         public bool xoaCtHDN(DTO_CtHDN cthdn)
         {
-            string sql = "EXEC sp_XoaChiTietHDN @MaHDN, @MaSP";
+            string sql = "EXEC sp_XoaChiTietHDN   @MaCTN";
             var parameters = new Dictionary<string, object>
             {
-                { "@MaHDN", cthdn.MaHDN },
-                { "@MaSP", cthdn.MaSP }
+                { "@MaCTN", cthdn.MaCTN }
             };
             return ExecuteNonQuery(sql, parameters);
         }

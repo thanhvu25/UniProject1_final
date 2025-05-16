@@ -18,37 +18,42 @@ namespace DAL
             return ExecuteQuery(sql);
         }
 
-        public int KiemTraMaTrung(string maHDB)
+        public int KiemTraMaTrung(string maCTB)
         {
-            string sql = "SELECT COUNT(*) FROM ChiTietHDB WHERE MaHDB = @MaHDB";
+            string sql = "SELECT COUNT(*) FROM ChiTietHDB WHERE MaCTB = @MaCTB";
             var parameters = new Dictionary<string, object>
             {
-                { "@MaHDB", maHDB }
+                { "@MaCTB", maCTB }
             };
             return ExecuteScalar(sql, parameters);
         }
 
         public bool themCtHDB(DTO_CtHDB ctHDB)
         {
-            string sql = "EXEC sp_ThemChiTietHDB @MaHDB, @MaSP, @MaKH, @SL, @MaNV";
+            string sql = "EXEC sp_ThemChiTietHDB   @MaHDB, @MaKH, @MaSP, @SizeVN, @MaMau, @SL, @MaNV ";
             var parameters = new Dictionary<string, object>
             {
-                { "@MaHDB", ctHDB.MaHDB },
-                { "@MaSP", ctHDB.MaSP },
+                {  "@MaHDB", ctHDB.MaHDB },
                 { "@MaKH", ctHDB.MaKH },
+                { "@MaSP", ctHDB.MaSP },
+                { "@SizeVN", ctHDB.SizeVN },
+                { "@MaMau", ctHDB.MaMau },
                 { "@SL", ctHDB.SL },
-                { "@MaNV", ctHDB.MaNV }
+                { "@MaNV", ctHDB.MaNV }           
             };
             return ExecuteNonQuery(sql, parameters);
         }
 
         public bool suaCtHDB(DTO_CtHDB ctHDB)
         {
-            string sql = "EXEC sp_SuaChiTietHDB @MaHDB, @MaSP, @MaKH, @SL, @MaNV";
+            string sql = "EXEC sp_SuaChiTietHDB  @MaCTB, @MaKH, @MaSP, @SizeVN, @MaMau, @SL, @MaNV";
             var parameters = new Dictionary<string, object>
             {
-                { "@MaHDB", ctHDB.MaHDB },
+                {  "@MaCTB", ctHDB.MaCTB },              
+                //{ "@MaHDB", ctHDB.MaHDB },
                 { "@MaSP", ctHDB.MaSP },
+                { "@SizeVN", ctHDB.SizeVN },
+                { "@MaMau", ctHDB.MaMau },
                 { "@MaKH", ctHDB.MaKH },
                 { "@SL", ctHDB.SL },
                 { "@MaNV", ctHDB.MaNV }
@@ -58,11 +63,10 @@ namespace DAL
 
         public bool xoaCtHDB(DTO_CtHDB ctHDB)
         {
-            string sql = "EXEC sp_XoaChiTietHDB @MaHDB, @MaSP";
+            string sql = "EXEC sp_XoaChiTietHDB  @MaCTB";
             var parameters = new Dictionary<string, object>
             {
-                { "@MaHDB", ctHDB.MaHDB },
-                { "@MaSP", ctHDB.MaSP }
+                { "@MaCTB", ctHDB.MaCTB }
             };
             return ExecuteNonQuery(sql, parameters);
         }

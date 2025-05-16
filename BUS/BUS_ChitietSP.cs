@@ -43,6 +43,10 @@ namespace BUS
         {
             return dalCTSP.getMau();
         }
+        public DataTable getMauForCombo()
+        {
+            return dalCTSP.getMauForCombo();
+        }
         public int KiemTraMaMauTrung(DTO_ChiTietSP mau)
         {
             return dalCTSP.KiemTraMaMauTrung(mau);
@@ -57,49 +61,33 @@ namespace BUS
         }
 
         /// <summary>
-        /// SP + Size
+        /// CHI TIẾT SẢN PHẨM
         /// </summary>
         /// <returns></returns>
-        public DataTable getSanPham_Size()
+        public DataTable getSanPham_CT()
         {
-            return dalCTSP.getSanPham_Size();
+            return dalCTSP.getSanPham_CT();
         }
-        public int KiemTraSP_Size(DTO_ChiTietSP sp_size)
+        public DataTable getCTSPForSP(string maSP)
         {
-            return dalCTSP.KiemTraSP_Size(sp_size);
+            return dalCTSP.getCTSPForSP(maSP);
         }
-        public bool ThemSP_Size(DTO_ChiTietSP sp_size)
+        public DataTable getCTSPForBH()
         {
-            return dalCTSP.ThemSP_Size(sp_size);
-        }
-        public bool XoaSP_Size(DTO_ChiTietSP sp_size)
-        {
-            return dalCTSP.XoaSP_Size(sp_size);
+            return dalCTSP.getCTSPForBH();
         }
 
-        /// <summary>
-        /// SP + Màu sắc
-        /// </summary>
-        /// <returns></returns>
-        public DataTable getSanPham_MauSac()
+        public int KiemTraSP_CT(DTO_ChiTietSP ctsp)
         {
-            return dalCTSP.getSanPham_MauSac();
+            return dalCTSP.KiemTraSP_CT(ctsp);
         }
-        public DataTable getMauForCombo()
+        public bool ThemSP_CT(DTO_ChiTietSP ctsp)
         {
-            return dalCTSP.getMauForCombo();
+            return dalCTSP.ThemSP_CT(ctsp);
         }
-        public int KiemTraSP_Mau(DTO_ChiTietSP sp_mau)
+        public bool XoaSP_CT(DTO_ChiTietSP ctsp)
         {
-            return dalCTSP.KiemTraSP_Mau(sp_mau);
-        }
-        public bool ThemSP_Mau(DTO_ChiTietSP sp_mau)
-        {
-            return dalCTSP.ThemSP_Mau(sp_mau);
-        }
-        public bool XoaSP_Mau(DTO_ChiTietSP sp_mau)
-        {
-            return dalCTSP.XoaSP_Mau(sp_mau);
+            return dalCTSP.XoaSP_CT(ctsp);
         }
 
 

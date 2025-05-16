@@ -17,9 +17,9 @@ namespace BUS
         {
             return dalcthdb.getCtHDB();
         }
-        public int KiemTraMaTrung(string maHDB)
+        public int KiemTraMaTrung(string maCTB)
         {
-            return dalcthdb.KiemTraMaTrung(maHDB);
+            return dalcthdb.KiemTraMaTrung(maCTB);
         }
         public bool themCtHDB(DTO_CtHDB ct)
         {

@@ -13,16 +13,23 @@ namespace DAL
     {
         public DataTable getKhoHang()
         {
-            string sql = "SELECT Kho.MaSP, TenSP, ThuongHieu.TenTH, SizeVN, TenMau, SLTon FROM Kho INNER JOIN SanPham ON Kho.MaSP = SanPham.MaSP INNER JOIN ThuongHieu ON SanPham.MaTH = ThuongHieu.MaTH INNER JOIN MauSac ON MauSac.MaMau = Kho.MaMau";
+            string sql = "SELECT Kho.MaSP, TenSP, SizeVN, TenMau, ThuongHieu.TenTH, SLTon FROM Kho INNER JOIN SanPham ON Kho.MaSP = SanPham.MaSP INNER JOIN ThuongHieu ON SanPham.MaTH = ThuongHieu.MaTH INNER JOIN MauSac ON MauSac.MaMau = Kho.MaMau";
             return ExecuteQuery(sql);
         }
 
-        public int KiemTraMaTrung(string maSP)
+        public DataTable getKhoHangForOS()
         {
-            string sql = "SELECT COUNT(*) FROM Kho WHERE MaSP = @MaSP";
+            string sql = "SELECT Kho.MaSP, TenSP, SizeVN, TenMau, ThuongHieu.TenTH, SLTon FROM Kho INNER JOIN SanPham ON Kho.MaSP = SanPham.MaSP INNER JOIN ThuongHieu ON SanPham.MaTH = ThuongHieu.MaTH INNER JOIN MauSac ON MauSac.MaMau = Kho.MaMau WHERE SLTon <= 10";
+            return ExecuteQuery(sql);
+        }
+        public int KiemTraMaTrung(DTOKhoHang kho)
+        {
+            string sql = "SELECT COUNT(*) FROM Kho WHERE MaSP = @MaSP AND SizeVN = @SizeVN AND MaMau = @MaMau ";
             var parameters = new Dictionary<string, object>
         {
-            {"@MaSP", maSP}
+            {"@MaSP", kho.MaSP},
+            {"@SizeVN", kho.SizeVN},
+            {"@MaMau", kho.MaMau}
         };
             return ExecuteScalar(sql, parameters);
         }

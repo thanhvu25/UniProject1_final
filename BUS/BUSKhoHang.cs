@@ -17,9 +17,13 @@ namespace BUS
         {
             return dalkho.getKhoHang();
         }
-        public int KiemTraMaTrung(string maSP)
+        public DataTable getKhoHangForOS() // lượng hàng tồn kho <= 10
         {
-            return dalkho.KiemTraMaTrung(maSP);
+            return dalkho.getKhoHangForOS();
+        }
+        public int KiemTraMaTrung(DTOKhoHang kho)
+        {
+            return dalkho.KiemTraMaTrung(kho);
         }
         public bool themSP(DTOKhoHang kho)
         {

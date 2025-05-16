@@ -26,7 +26,18 @@ namespace DAL
                 con.Close();
         }
 
-        public int ExecuteScalar(string sql, Dictionary<string, object> parameters = null)
+        public static DBConnect instance;
+        public static DBConnect Instance
+        {
+            get
+            {
+                if (instance == null)
+                    instance = new DBConnect();
+                return instance;
+            }
+            private set { instance = value; }
+        }
+        public int ExecuteScalar(string sql, Dictionary<string, object> parameters = null) // đếm
         {
             try
             {
@@ -47,7 +58,7 @@ namespace DAL
             }
         }
 
-        public bool ExecuteNonQuery(string sql, Dictionary<string, object> parameters = null)
+        public bool ExecuteNonQuery(string sql, Dictionary<string, object> parameters = null) // trả ra dòng được thực thi
         {
             try
             {
@@ -69,7 +80,7 @@ namespace DAL
             }
         }
 
-        public DataTable ExecuteQuery(string sql, Dictionary<string, object> parameters = null)
+        public DataTable ExecuteQuery(string sql, Dictionary<string, object> parameters = null) // trả ra dòng két quả
         {
             try
             {

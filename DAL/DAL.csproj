@@ -31,6 +31,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Microsoft.VisualBasic" />
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -44,6 +45,7 @@
     <Compile Include="DALKhachHang.cs" />
     <Compile Include="DALKhoHang.cs" />
     <Compile Include="DALKhuyenMai.cs" />
+    <Compile Include="DALLogin.cs" />
     <Compile Include="DALNhanVien.cs" />
     <Compile Include="DALSanPham.cs" />
     <Compile Include="DALThuongHieu.cs" />
@@ -61,6 +63,9 @@
       <Project>{a93f1f54-c59a-4a37-8cbc-d5cb52d3c3f6}</Project>
       <Name>DTO</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

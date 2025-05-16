@@ -60,6 +60,11 @@ namespace DAL
             string sql = "SELECT * FROM MauSac";
             return ExecuteQuery(sql);
         }
+        public DataTable getMauForCombo()
+        {
+            string sql = "SELECT MaMau, TenMau FROM MauSac";
+            return ExecuteQuery(sql);
+        }
         public int KiemTraMaMauTrung(DTO_ChiTietSP mau)
         {
             string sql = "SELECT COUNT(*) FROM MauSac WHERE MaMau = @MaMau";
@@ -87,95 +92,66 @@ namespace DAL
                 { "@MaMau", mau.MaMau }
             };
             return ExecuteNonQuery(sql, parameters);
-        }       
+        }
 
         /// <summary>
-        /// SP + Size
+        /// CHI TIẾT SẢN PHẨM
         /// </summary>
         /// <returns></returns>
-        public DataTable getSanPham_Size()
+        public DataTable getSanPham_CT()
         {
-            string sql = "SELECT SanPham_Size.MaSP, TenSP, SanPham_Size.SizeVN FROM SanPham_Size INNER JOIN SanPham ON SanPham_Size.MaSP = SanPham.MaSP";
+            string sql = "SELECT SanPham_CT.MaSP, TenSP, SizeVN, MaMau, TenMau FROM SanPham_CT INNER JOIN SanPham on SanPham_CT.MaSP = SanPham.MaSP";
             return ExecuteQuery(sql);
         }
-        public int KiemTraSP_Size(DTO_ChiTietSP sp_size)
+        public DataTable getCTSPForBH()
         {
-            string sql = "SELECT COUNT(*) FROM SanPham_Size WHERE MaSP = @MaSP AND SizeVN = @SizeVN";
+            string sql = "SELECT SanPham_CT.MaSP, TenSP, SanPham_CT.SizeVN, TenMau, SLTon FROM SanPham_CT INNER JOIN Kho ON SanPham_CT.MaSP = Kho.MaSP INNER JOIN SanPham ON SanPham_CT.MaSP = SanPham.MaSP";
+            return ExecuteQuery(sql);
+        }
+        public DataTable getCTSPForSP(string maSP)
+        {
+            string sql = "SELECT SanPham_CT.MaSP, TenSP, SizeVN, MaMau, TenMau FROM SanPham_CT INNER JOIN SanPham on SanPham_CT.MaSP = SanPham.MaSP WHERE SanPham_CT.MaSP = @MaSP";
             Dictionary<string, object> parameters = new Dictionary<string, object>
             {
-                { "@MaSP", sp_size.MaSP },
-                { "@SizeVN", sp_size.SizeVN }
+                { "@MaSP", maSP }
+            };
+            return ExecuteQuery(sql, parameters);
+        }
+        public int KiemTraSP_CT(DTO_ChiTietSP sp_ct)
+        {
+            string sql = "SELECT COUNT(*) FROM SanPham_CT WHERE MaSP = @MaSP AND SizeVN = @SizeVN AND MaMau = @MaMau";
+            Dictionary<string, object> parameters = new Dictionary<string, object>
+            {
+                { "@MaSP", sp_ct.MaSP },
+                { "@SizeVN", sp_ct.SizeVN },
+                { "@MaMau", sp_ct.MaMau }
             };
             return ExecuteScalar(sql, parameters);
         }
 
-        public bool ThemSP_Size(DTO_ChiTietSP sp_size)
+        public bool ThemSP_CT(DTO_ChiTietSP sp_ct)
         {
-            string sql = "INSERT INTO SanPham_Size (MaSP, SizeVN) VALUES (@MaSP, @SizeVN)";
+            string sql = "INSERT INTO SanPham_CT (MaSP, SizeVN, MaMau, TenMau) VALUES (@MaSP, @SizeVN, @MaMau, @TenMau)";
             Dictionary<string, object> parameters = new Dictionary<string, object>
             {
-                { "@MaSP", sp_size.MaSP },
-                { "@SizeVN", sp_size.SizeVN }
+                { "@MaSP", sp_ct.MaSP },
+                { "@SizeVN", sp_ct.SizeVN },
+                { "@MaMau", sp_ct.MaMau },
+                { "@TenMau", sp_ct.TenMau }
             };
             return ExecuteNonQuery(sql, parameters);
         }
-        public bool XoaSP_Size(DTO_ChiTietSP sp_size)
+        public bool XoaSP_CT(DTO_ChiTietSP sp_ct)
         {
-            string sql = "DELETE FROM SanPham_Size WHERE MaSP = @MaSP AND SizeVN = @SizeVN";
+            string sql = "DELETE FROM SanPham_CT WHERE MaSP = @MaSP AND SizeVN = @SizeVN AND MaMau = @MaMau";
             Dictionary<string, object> parameters = new Dictionary<string, object>
             {
-                { "@MaSP", sp_size.MaSP },
-                { "@SizeVN", sp_size.SizeVN }
+                { "@MaSP", sp_ct.MaSP },
+                { "@SizeVN", sp_ct.SizeVN },
+                { "@MaMau", sp_ct.MaMau }
             };
             return ExecuteNonQuery(sql, parameters);
         }
-
-        /// <summary>
-        /// SP + Màu sắc
-        /// </summary>
-        /// <returns></returns>
-        public DataTable getSanPham_MauSac()
-        {
-            string sql = "SELECT SanPham.MaSP, TenSP, MauSac.MaMau, MauSac.TenMau FROM SanPham_MauSac INNER JOIN SanPham ON SanPham_MauSac.MaSP = SanPham.MaSP INNER JOIN MauSac ON SanPham_MauSac.MaMau = MauSac.MaMau";
-            return ExecuteQuery(sql);
-        }
-        public DataTable getMauForCombo()
-        {
-            string sql = "SELECT MaMau, TenMau FROM MauSac";
-            return ExecuteQuery(sql);
-        }
-        public int KiemTraSP_Mau(DTO_ChiTietSP sp_mau)
-        {
-            string sql = "SELECT COUNT(*) FROM SanPham_MauSac WHERE MaSP = @MaSP AND MaMau = @MaMau";
-            Dictionary<string, object> parameters = new Dictionary<string, object>
-            {
-                { "@MaSP", sp_mau.MaSP },
-                { "@MaMau", sp_mau.MaMau }
-            };
-            return ExecuteScalar(sql, parameters);
-        }
-        public bool ThemSP_Mau(DTO_ChiTietSP sp_mau)
-        {
-            string sql = "INSERT INTO SanPham_MauSac (MaSP, MaMau, TenMau) VALUES (@MaSP, @MaMau, @TenMau)";
-            Dictionary<string, object> parameters = new Dictionary<string, object>
-            {
-                { "@MaSP", sp_mau.MaSP },
-                { "@MaMau", sp_mau.MaMau },
-                { "@TenMau", sp_mau.TenMau }
-            };
-            return ExecuteNonQuery(sql, parameters);
-        }
-        public bool XoaSP_Mau(DTO_ChiTietSP sp_mau)
-        {
-            string sql = "DELETE FROM SanPham_MauSac WHERE MaSP = @MaSP AND MaMau = @MaMau";
-            Dictionary<string, object> parameters = new Dictionary<string, object>
-            {
-                { "@MaSP", sp_mau.MaSP },
-                { "@MaMau", sp_mau.MaMau }
-            };
-            return ExecuteNonQuery(sql, parameters);
-        }
-
 
     }
 }
