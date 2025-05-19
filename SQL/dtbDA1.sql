@@ -10,9 +10,7 @@ GO
 CREATE TABLE TaiKhoan
 (TenTK CHAR(20) PRIMARY KEY,
 MK CHAR(20), 
-TenHT NVARCHAR(20) NOT NULL,
-Fail INT DEFAULT 0,
-LockTime DATETIME NULL
+TenHT NVARCHAR(20) NOT NULL
 )	
 INSERT INTO TaiKhoan(TenTK, MK, TenHT)
 VALUES
@@ -147,7 +145,6 @@ CONSTRAINT FK_CTNhap_CTSP FOREIGN KEY (MaSP, SizeVN, MaMau) REFERENCES SanPham_C
 
 
 
-
  --
 SELECT MaKH, HoTen, HangKH
 FROM KhachHang
@@ -185,10 +182,12 @@ ON SanPham.MaSP = Kho.MaSP INNER JOIN ThuongHieu
 ON ThuongHieu.MaTH = SanPham.MaTH
 GROUP BY SanPham.MaSP, TenSP, TenTH, DonGia
 
---
-SELECT SanPham_CT.MaSP, TenSP, SanPham_CT.SizeVN, TenMau
+--CT + Kho
+SELECT SanPham_CT.MaSP, TenSP, SanPham_CT.SizeVN, TenMau, SLTon
 FROM SanPham_CT INNER JOIN Kho
-ON SanPham_CT.MaSP = Kho.MaSP INNER JOIN SanPham
+ON SanPham_CT.MaSP = Kho.MaSP 
+AND SanPham_CT.SizeVN = Kho.SizeVN 
+AND SanPham_CT.MaMau = Kho.MaMau INNER JOIN SanPham
 ON SanPham_CT.MaSP = SanPham.MaSP
 
 --KH + HDB
@@ -212,3 +211,11 @@ ON HDB.MaHDB = ChiTietHDB.MaHDB INNER JOIN MauSac
 ON ChiTietHDB.MaMau = MauSac.MaMau INNER JOIN SanPham
 ON SanPham.MaSP = ChiTietHDB.MaSP
 WHERE KhachHang.MaKH = @MaKH
+
+--CTB +++
+SELECT MaCTB, ChiTietHDB.MaHDB, HoTen, TenSP, SizeVN, TenMau, SL, MaNV
+FROM ChiTietHDB INNER JOIN HDB
+ON ChiTietHDB.MaHDB = HDB.MaHDB INNER JOIN KhachHang
+ON ChiTietHDB.MaKH = KhachHang.MaKH INNER JOIN SanPham
+ON SanPham.MaSP = ChiTietHDB.MaSP INNER JOIN MauSac
+ON MauSaC.MaMau = ChiTietHDB.MaMau

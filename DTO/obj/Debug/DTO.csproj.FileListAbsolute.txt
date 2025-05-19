@@ -13,3 +13,9 @@ D:\DATA\2. DA\DA1\DTO\obj\Debug\DTO.csproj.AssemblyReference.cache
 D:\DATA\2. DA\DA1\DTO\obj\Debug\DTO.csproj.CoreCompileInputs.cache
 D:\DATA\2. DA\DA1\DTO\obj\Debug\DTO.dll
 D:\DATA\2. DA\DA1\DTO\obj\Debug\DTO.pdb
+D:\DATA\_DA\DA1\DTO\bin\Debug\DTO.dll
+D:\DATA\_DA\DA1\DTO\bin\Debug\DTO.pdb
+D:\DATA\_DA\DA1\DTO\obj\Debug\DTO.csproj.AssemblyReference.cache
+D:\DATA\_DA\DA1\DTO\obj\Debug\DTO.csproj.CoreCompileInputs.cache
+D:\DATA\_DA\DA1\DTO\obj\Debug\DTO.dll
+D:\DATA\_DA\DA1\DTO\obj\Debug\DTO.pdb

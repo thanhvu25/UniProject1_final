@@ -105,7 +105,7 @@ namespace DAL
         }
         public DataTable getCTSPForBH()
         {
-            string sql = "SELECT SanPham_CT.MaSP, TenSP, SanPham_CT.SizeVN, TenMau, SLTon FROM SanPham_CT INNER JOIN Kho ON SanPham_CT.MaSP = Kho.MaSP INNER JOIN SanPham ON SanPham_CT.MaSP = SanPham.MaSP";
+            string sql = "SELECT SanPham_CT.MaSP, TenSP, SanPham_CT.SizeVN, TenMau, SLTon\r\nFROM SanPham_CT INNER JOIN Kho\r\nON SanPham_CT.MaSP = Kho.MaSP \r\nAND SanPham_CT.SizeVN = Kho.SizeVN \r\nAND SanPham_CT.MaMau = Kho.MaMau INNER JOIN SanPham\r\nON SanPham_CT.MaSP = SanPham.MaSP";
             return ExecuteQuery(sql);
         }
         public DataTable getCTSPForSP(string maSP)

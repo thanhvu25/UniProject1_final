@@ -17,6 +17,10 @@ namespace BUS
         {
             return dalkho.getKhoHang();
         }
+        public DataTable getKhoHangForBH(string MaSP) //lấy ttin bảng Kho và đổ ra dgv
+        {
+            return dalkho.getKhoHangForBH(MaSP);
+        }
         public DataTable getKhoHangForOS() // lượng hàng tồn kho <= 10
         {
             return dalkho.getKhoHangForOS();

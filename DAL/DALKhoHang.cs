@@ -16,6 +16,15 @@ namespace DAL
             string sql = "SELECT Kho.MaSP, TenSP, SizeVN, TenMau, ThuongHieu.TenTH, SLTon FROM Kho INNER JOIN SanPham ON Kho.MaSP = SanPham.MaSP INNER JOIN ThuongHieu ON SanPham.MaTH = ThuongHieu.MaTH INNER JOIN MauSac ON MauSac.MaMau = Kho.MaMau";
             return ExecuteQuery(sql);
         }
+        public DataTable getKhoHangForBH(string MaSP)
+        {
+            string sql = "SELECT Kho.MaSP, TenSP, SizeVN, TenMau, ThuongHieu.TenTH, SLTon FROM Kho INNER JOIN SanPham ON Kho.MaSP = SanPham.MaSP INNER JOIN ThuongHieu ON SanPham.MaTH = ThuongHieu.MaTH INNER JOIN MauSac ON MauSac.MaMau = Kho.MaMau WHERE Kho.MaSP = @MaSP";
+            var parameters = new Dictionary<string, object>
+        {
+            {"@MaSP", MaSP}
+        };
+            return ExecuteQuery(sql, parameters);
+        }
 
         public DataTable getKhoHangForOS()
         {

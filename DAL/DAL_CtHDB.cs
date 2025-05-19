@@ -14,7 +14,7 @@ namespace DAL
     {
         public DataTable getCtHDB()
         {
-            string sql = "SELECT * FROM ChiTietHDB";
+            string sql = "SELECT MaCTB, ChiTietHDB.MaHDB, HoTen, TenSP, SizeVN, TenMau, SL, MaNV\r\nFROM ChiTietHDB INNER JOIN HDB\r\nON ChiTietHDB.MaHDB = HDB.MaHDB INNER JOIN KhachHang\r\nON ChiTietHDB.MaKH = KhachHang.MaKH INNER JOIN SanPham\r\nON SanPham.MaSP = ChiTietHDB.MaSP INNER JOIN MauSac\r\nON MauSaC.MaMau = ChiTietHDB.MaMau";
             return ExecuteQuery(sql);
         }
 

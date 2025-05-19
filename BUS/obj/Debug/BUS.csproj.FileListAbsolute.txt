@@ -15,3 +15,14 @@ D:\DATA\2. DA\DA1\BUS\obj\Debug\BUS.csproj.CoreCompileInputs.cache
 D:\DATA\2. DA\DA1\BUS\obj\Debug\BUS.csproj.Up2Date
 D:\DATA\2. DA\DA1\BUS\obj\Debug\BUS.dll
 D:\DATA\2. DA\DA1\BUS\obj\Debug\BUS.pdb
+D:\DATA\_DA\DA1\BUS\bin\Debug\BUS.dll
+D:\DATA\_DA\DA1\BUS\bin\Debug\BUS.pdb
+D:\DATA\_DA\DA1\BUS\bin\Debug\DAL.dll
+D:\DATA\_DA\DA1\BUS\bin\Debug\DTO.dll
+D:\DATA\_DA\DA1\BUS\bin\Debug\DAL.pdb
+D:\DATA\_DA\DA1\BUS\bin\Debug\DTO.pdb
+D:\DATA\_DA\DA1\BUS\obj\Debug\BUS.csproj.AssemblyReference.cache
+D:\DATA\_DA\DA1\BUS\obj\Debug\BUS.csproj.CoreCompileInputs.cache
+D:\DATA\_DA\DA1\BUS\obj\Debug\BUS.csproj.Up2Date
+D:\DATA\_DA\DA1\BUS\obj\Debug\BUS.dll
+D:\DATA\_DA\DA1\BUS\obj\Debug\BUS.pdb
