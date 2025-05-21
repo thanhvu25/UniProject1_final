@@ -18,7 +18,7 @@ namespace DAL
         }
         public DataTable getKhachHangForBH()
         {
-            string sql = "SELECT MaKH, HoTen, HangKH FROM KhachHang";
+            string sql = "SELECT MaKH, HoTen, Sdt, HangKH FROM KhachHang";
             return ExecuteQuery(sql);
         }
         public DataTable getKhachHang_HD(string MaKH)
