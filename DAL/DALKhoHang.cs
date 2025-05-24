@@ -13,12 +13,12 @@ namespace DAL
     {
         public DataTable getKhoHang()
         {
-            string sql = "SELECT Kho.MaSP, TenSP, SizeVN, TenMau, ThuongHieu.TenTH, SLTon FROM Kho INNER JOIN SanPham ON Kho.MaSP = SanPham.MaSP INNER JOIN ThuongHieu ON SanPham.MaTH = ThuongHieu.MaTH INNER JOIN MauSac ON MauSac.MaMau = Kho.MaMau";
+            string sql = "SELECT Kho.MaSP, TenSP, Kho.SizeVN, TenMau, ThuongHieu.TenTH, SLTon\r\nFROM Kho INNER JOIN SanPham INNER JOIN SanPham_CT\r\nON SanPham.MaSP = SanPham_CT.MaSP INNER JOIN MauSac\r\nON MauSac.MaMau = SanPham_CT.MaMau\r\nON SanPham.MaSP = Kho.MaSP INNER JOIN ChiTietHDN\r\nON SanPham.MaSP = ChiTietHDN.MaSP INNER JOIN HDN\r\nON ChiTietHDN.MaHDN = HDN.MaHDN INNER JOIN ThuongHieu\r\nON ThuongHieu.MaTH = HDN.MaTH ";
             return ExecuteQuery(sql);
         }
         public DataTable getKhoHangForBH(string MaSP)
         {
-            string sql = "SELECT Kho.MaSP, TenSP, SizeVN, TenMau, ThuongHieu.TenTH, SLTon FROM Kho INNER JOIN SanPham ON Kho.MaSP = SanPham.MaSP INNER JOIN ThuongHieu ON SanPham.MaTH = ThuongHieu.MaTH INNER JOIN MauSac ON MauSac.MaMau = Kho.MaMau WHERE Kho.MaSP = @MaSP";
+            string sql = "SELECT Kho.MaSP, TenSP, SizeVN, TenMau, ThuongHieu.TenTH, SLTon \r\nFROM Kho INNER JOIN SanPham INNER JOIN SanPham_CT\r\nON SanPham.MaSP = SanPham_CT.MaSP INNER JOIN MauSac\r\nON MauSac.MaMau = SanPham_CT.MaMau\r\nON SanPham.MaSP = Kho.MaSP INNER JOIN ChiTietHDN\r\nON SanPham.MaSP = ChiTietHDN.MaSP INNER JOIN HDN\r\nON ChiTietHDN.MaHDN = HDN.MaHDN INNER JOIN ThuongHieu\r\nON ThuongHieu.MaTH = HDN.MaTH WHERE Kho.MaSP = @MaSP";
             var parameters = new Dictionary<string, object>
         {
             {"@MaSP", MaSP}
@@ -28,7 +28,7 @@ namespace DAL
 
         public DataTable getKhoHangForOS()
         {
-            string sql = "SELECT Kho.MaSP, TenSP, SizeVN, TenMau, ThuongHieu.TenTH, SLTon FROM Kho INNER JOIN SanPham ON Kho.MaSP = SanPham.MaSP INNER JOIN ThuongHieu ON SanPham.MaTH = ThuongHieu.MaTH INNER JOIN MauSac ON MauSac.MaMau = Kho.MaMau WHERE SLTon <= 10";
+            string sql = "SELECT Kho.MaSP, TenSP, Kho.SizeVN, TenMau, ThuongHieu.TenTH, SLTon \r\nFROM Kho INNER JOIN SanPham \r\nON SanPham.MaSP = Kho.MaSP INNER JOIN SanPham_CT\r\nON SanPham.MaSP = SanPham_CT.MaSP INNER JOIN MauSac\r\nON MauSac.MaMau = SanPham_CT.MaMau INNER JOIN ChiTietHDN\r\nON SanPham.MaSP = ChiTietHDN.MaSP INNER JOIN HDN\r\nON ChiTietHDN.MaHDN = HDN.MaHDN INNER JOIN ThuongHieu\r\nON ThuongHieu.MaTH = HDN.MaTH \r\nWHERE SLTon <= 10";
             return ExecuteQuery(sql);
         }
         public int KiemTraMaTrung(DTOKhoHang kho)

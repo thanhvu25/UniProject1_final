@@ -1,6 +1,8 @@
 ﻿USE vvtDA1
 GO
 
+--KH-NV-TH-SP-KHO-KM-N-B
+
 -----------------------------------------------------KHÁCH HÀNG----------------------------------------
 CREATE PROCEDURE sp_ThemKhachHang
     @HoTen NVARCHAR(30),
@@ -33,12 +35,12 @@ BEGIN
     INSERT INTO KhachHang (MaKH, HoTen, GioiTinh, DiaChi, Sdt, HangKH)
     VALUES (@MaMoi, @HoTen, @GioiTinh, @DiaChi, @Sdt, @HangKH)
 END
-EXEC sp_ThemKhachHang 
-    @HoTen = N'Nguyễn Văn An',
-    @GioiTinh = N'Nam',
-    @DiaChi = N'Hà Nội',
-    @Sdt = '0987654322',
-    @HangKH = N'Thân thiết'
+--EXEC sp_ThemKhachHang 
+--    @HoTen = N'{0}',
+--    @GioiTinh = N'{1}',
+--    @DiaChi = N'{2}',
+--    @Sdt = '{3}',
+--    @HangKH = N'{4}'
 
 sp_helptext 'sp_ThemKhachHang'
 
@@ -61,13 +63,13 @@ BEGIN
         HangKH = @HangKH
     WHERE MaKH = @MaKH
 END
-EXEC sp_SuaKhachHang 
-    @MaKH = 'KH001',
-    @HoTen = N'Nguyễn Văn Bình',
-    @GioiTinh = N'Nam',
-    @DiaChi = N'Đà Nẵng',
-    @Sdt = '0909123456',
-    @HangKH = N'Thân thiết'
+--EXEC sp_SuaKhachHang 
+--    @MaKH = '{0}',
+--    @HoTen = N'{1}',
+--    @GioiTinh = N'{2}',
+--    @DiaChi = N'{3}',
+--    @Sdt = '{4}',
+--    @HangKH = N'{5}'
 
 
 CREATE PROCEDURE sp_XoaKhachHang
@@ -77,7 +79,7 @@ BEGIN
     DELETE FROM KhachHang
     WHERE MaKH = @MaKH
 END
-EXEC sp_XoaKhachHang @MaKH = 'KH001'
+--EXEC sp_XoaKhachHang @MaKH = '{0}'
 
 -----------------------------------------------------NHÂN VIÊN----------------------------------------
 CREATE PROCEDURE sp_ThemNhanVien
@@ -229,7 +231,6 @@ EXEC sp_XoaThuongHieu @MaTH = '{0}'
 -----------------------------------------------------SẢN PHẨM----------------------------------------
 CREATE PROCEDURE sp_ThemSanPham
     @TenSP NVARCHAR(50),
-    @MaTH CHAR(10),
     @DonGia INT
 AS
 BEGIN
@@ -250,20 +251,17 @@ BEGIN
     SET @MaMoi = 'SP' + RIGHT('000' + CAST(@SoMoi AS VARCHAR(3)), 3)
 
     -- Thêm sản phẩm mới
-    INSERT INTO SanPham (MaSP, TenSP, MaTH, DonGia)
-    VALUES (@MaMoi, @TenSP, @MaTH,  @DonGia)
+    INSERT INTO SanPham (MaSP, TenSP, DonGia)
+    VALUES (@MaMoi, @TenSP, @DonGia)
 END
 --EXEC sp_ThemSanPham 
 --    @TenSP = N'{0}',
---    @MaTH = '{1}',
---    @DonGia = {2}
-
+--    @DonGia = {1}
 
 
 CREATE PROCEDURE sp_SuaSanPham
     @MaSP CHAR(10),
     @TenSP NVARCHAR(50),
-    @MaTH CHAR(10),
     @DonGia INT
 AS
 BEGIN
@@ -271,14 +269,12 @@ BEGIN
     UPDATE SanPham
     SET 
         TenSP = @TenSP,
-        MaTH = @MaTH,
         DonGia = @DonGia
     WHERE MaSP = @MaSP
 END
 --EXEC sp_SuaSanPham
 --    @MaSP = '{0}',
---    @TenSP = N'{1}',
---    @MaTH = '{2}',
+--    @TenSP = N'{1}'
 --    @DonGia = {3}
 
 CREATE PROCEDURE sp_XoaSanPham
@@ -453,42 +449,53 @@ END
 
 -----------------------------------------------------HDN----------------------------------------
 CREATE PROCEDURE sp_ThemHDN
+    @MaTH CHAR(10),
     @NgayNhap DATE,
-    @DonGia INT
+    @TongHD INT,
+    @MaNV CHAR(10),
+    @MaHDN CHAR(10) 
 AS
 BEGIN
-    DECLARE @MaHDN CHAR(10)
-    SELECT @MaHDN = 'N' + RIGHT('0000' + CAST(ISNULL(MAX(CAST(SUBSTRING(MaHDN, 2, 4) AS INT)) + 1, 1) AS VARCHAR), 4)
+	DECLARE @MaMoi CHAR(10)
+    -- Sinh mã tự động: N0001, N0002...
+    SELECT @MaMoi = 'N' + RIGHT('0000' + CAST(ISNULL(MAX(CAST(SUBSTRING(MaHDN, 2, 4) AS INT)) + 1, 1) AS VARCHAR), 4)
     FROM HDN
 
-    INSERT INTO HDN (MaHDN, NgayNhap, DonGia)
-    VALUES (@MaHDN,  @NgayNhap, @DonGia)
+    -- Thêm vào bảng
+    INSERT INTO HDN (MaHDN, MaTH, NgayNhap, TongHD, MaNV)
+    VALUES (@MaMoi, @MaTH, @NgayNhap, @TongHD, @MaNV)
 
-    SELECT @MaHDN AS MaHDN
 END
 GO
---EXEC sp_ThemHDN  
---    @NgayNhap = {0}, 
---    @DonGia = {1}
+--EXEC sp_ThemHDN
+    --@MaTH = {0},
+    --@NgayNhap = {1},
+    --@TongHD = {2},
+    --@MaNV = {3},
 
 
 CREATE PROCEDURE sp_SuaHDN
     @MaHDN CHAR(10),
+    @MaTH CHAR(10),
     @NgayNhap DATE,
-    @DonGia INT
+    @TongHD INT,
+    @MaNV CHAR(10)
 AS
 BEGIN
     UPDATE HDN
-    SET NgayNhap = @NgayNhap,
-        DonGia = @DonGia
+    SET MaTH = @MaTH,
+        NgayNhap = @NgayNhap,
+        TongHD = @TongHD,
+        MaNV = @MaNV
     WHERE MaHDN = @MaHDN
 END
 GO
---EXEC sp_SuaHDN 
---    @MaHDN = {0}, 
---    @NgayNhap = {1}, 
---    @DonGia = {2}
-
+--EXEC sp_SuaHDN
+    --@MaHDN = {0},
+    --@MaTH = {1},
+    --@NgayNhap = {2},
+    --@TongHD = {3},
+    --@MaNV = {4}
 
 CREATE PROCEDURE sp_XoaHDN
     @MaHDN CHAR(10)
@@ -504,114 +511,119 @@ GO
 -- PROCEDURE CHI TIẾT HDN
 CREATE PROCEDURE sp_ThemChiTietHDN
     @MaHDN CHAR(10),
-    @MaTH CHAR(10),
     @MaSP CHAR(10),
     @SizeVN INT,
     @MaMau CHAR(10),
     @SL INT,
-    @MaNV CHAR(10)
+    @DonGia INT
 AS
 BEGIN
-    DECLARE @MaCTN CHAR(20)
-    SELECT @MaCTN = @MaHDN + 'CT' + RIGHT('000' + CAST(ISNULL(COUNT(*) + 1, 1) AS VARCHAR), 3)
-    FROM ChiTietHDN WHERE MaHDN = @MaHDN
-
-    INSERT INTO ChiTietHDN (MaCTN, MaHDN, MaTH, MaSP, SizeVN, MaMau, SL, MaNV)
-    VALUES (@MaCTN, @MaHDN, @MaTH, @MaSP, @SizeVN, @MaMau, @SL, @MaNV)
-
-    SELECT @MaCTN AS MaCTN
+    INSERT INTO ChiTietHDN (MaHDN, MaSP, SizeVN, MaMau, SL, DonGia)
+    VALUES (@MaHDN, @MaSP, @SizeVN, @MaMau, @SL, @DonGia)
 END
 GO
-
---EXEC sp_ThemChiTietHDN 
---    @MaHDN = {0}, 
---    @MaTH = {1}, 
---    @MaSP = {2}, 
---    @SizeVN = {3}, 
---    @MaMau = {4}, 
---    @SL = {5}, 
---    @MaNV = {6}
+--EXEC sp_ThemChiTietHDN
+    --@MaHDN = {0},
+    --@MaSP = {1},
+    --@SizeVN = {2},
+    --@MaMau = {3},
+    --@SL = {4},
+    --@DonGia = {5}
 
 
 CREATE PROCEDURE sp_SuaChiTietHDN
-    @MaCTN CHAR(20),
-    @MaTH CHAR(10),
+    @MaHDN CHAR(10),
     @MaSP CHAR(10),
     @SizeVN INT,
     @MaMau CHAR(10),
     @SL INT,
-    @MaNV CHAR(10)
+    @DonGia INT
 AS
 BEGIN
     UPDATE ChiTietHDN
-    SET MaTH = @MaTH,
-        MaSP = @MaSP,
-        SizeVN = @SizeVN,
-        MaMau = @MaMau,
-        SL = @SL,
-        MaNV = @MaNV
-    WHERE MaCTN = @MaCTN
+    SET SL = @SL,
+        DonGia = @DonGia
+    WHERE MaHDN = @MaHDN AND MaSP = @MaSP AND SizeVN = @SizeVN AND MaMau = @MaMau
 END
 GO
---EXEC sp_SuaChiTietHDN 
---    @MaCTN = {0}, 
---    @MaTH = {1}, 
---    @MaSP = {2}, 
---    @SizeVN = {3}, 
---    @MaMau = {4}, 
---    @SL = {5}, 
---    @MaNV = {6}
+--EXEC sp_SuaChiTietHDN
+    --@MaHDN = {0},
+    --@MaSP = {1},
+    --@SizeVN = {2},
+    --@MaMau = {3},
+    --@SL = {4},
+    --@DonGia = {5}
 
 
 CREATE PROCEDURE sp_XoaChiTietHDN
-    @MaCTN CHAR(20)
+    @MaHDN CHAR(10),
+    @MaSP CHAR(10),
+    @SizeVN INT,
+    @MaMau CHAR(10)
 AS
 BEGIN
-    DELETE FROM ChiTietHDN WHERE MaCTN = @MaCTN
+    DELETE FROM ChiTietHDN
+    WHERE MaHDN = @MaHDN AND MaSP = @MaSP AND SizeVN = @SizeVN AND MaMau = @MaMau
 END
 GO
---EXEC sp_XoaChiTietHDN 
---    @MaCTN = {0}
+--EXEC sp_XoaChiTietHDN
+    --@MaHDN = {0},
+    --@MaSP = {1},
+    --@SizeVN = {2},
+    --@MaMau = {3}
 
 
 -----------------------------------------------------HDB-----------------------------------
 -- PROCEDURE HDB
 CREATE PROCEDURE sp_ThemHDB
+    @MaKH CHAR(10),
     @NgayBan DATE,
-    @DonGia INT
+    @TongHD INT,
+    @MaNV CHAR(10),
+    @MaHDB CHAR(10) 
 AS
 BEGIN
-    DECLARE @MaHDB CHAR(10)
-    SELECT @MaHDB = 'B' + RIGHT('0000' + CAST(ISNULL(MAX(CAST(SUBSTRING(MaHDB, 2, 4) AS INT)) + 1, 1) AS VARCHAR), 4)
+	DECLARE @MaMoi CHAR(10)
+    -- Sinh mã tự động: B0001, B0002...
+    SELECT @MaMoi = 'B' + RIGHT('0000' + CAST(ISNULL(MAX(CAST(SUBSTRING(MaHDB, 2, 4) AS INT)) + 1, 1) AS VARCHAR), 4)
     FROM HDB
 
-    INSERT INTO HDB (MaHDB, NgayBan, DonGia)
-    VALUES (@MaHDB, @NgayBan, @DonGia)
+    -- Thêm vào bảng
+    INSERT INTO HDB (MaHDB, MaKH, NgayBan, TongHD, MaNV)
+    VALUES (@MaMoi, @MaKH, @NgayBan, @TongHD, @MaNV)
 
-    SELECT @MaHDB AS MaHDB
 END
 GO
---EXEC sp_ThemHDB 
---    @NgayBan = {0}, 
---    @DonGia = {1}
+--EXEC sp_ThemHDB
+    --@MaKH = {0},
+    --@NgayBan = {1},
+    --@TongHD = {2},
+    --@MaNV = {3},
+
 
 
 CREATE PROCEDURE sp_SuaHDB
     @MaHDB CHAR(10),
+    @MaKH CHAR(10),
     @NgayBan DATE,
-    @DonGia INT
+    @TongHD INT,
+    @MaNV CHAR(10)
 AS
 BEGIN
     UPDATE HDB
-    SET NgayBan = @NgayBan,
-        DonGia = @DonGia
+    SET MaKH = @MaKH,
+        NgayBan = @NgayBan,
+        TongHD = @TongHD,
+        MaNV = @MaNV
     WHERE MaHDB = @MaHDB
 END
 GO
---EXEC sp_SuaHDB 
---    @MaHDB = {0}, 
---    @NgayBan = {2}, 
---    @DonGia = {3}
+--EXEC sp_SuaHDB
+    --@MaHDB = {0},
+    --@MaKH = {1},
+    --@NgayBan = {2},
+    --@TongHD = {3},
+    --@MaNV = {4}
 
 
 CREATE PROCEDURE sp_XoaHDB
@@ -628,71 +640,63 @@ GO
 -- PROCEDURE CHI TIẾT HDB
 CREATE PROCEDURE sp_ThemChiTietHDB
     @MaHDB CHAR(10),
-    @MaKH CHAR(10),
     @MaSP CHAR(10),
     @SizeVN INT,
     @MaMau CHAR(10),
     @SL INT,
-    @MaNV CHAR(10)
+    @DonGia INT
 AS
 BEGIN
-    DECLARE @MaCTB CHAR(20)
-    SELECT @MaCTB = @MaHDB + 'CT' + RIGHT('000' + CAST(ISNULL(COUNT(*) + 1, 1) AS VARCHAR), 3)
-    FROM ChiTietHDB WHERE MaHDB = @MaHDB
-
-    INSERT INTO ChiTietHDB (MaCTB, MaHDB, MaKH, MaSP, SizeVN, MaMau, SL, MaNV)
-    VALUES (@MaCTB, @MaHDB, @MaKH, @MaSP, @SizeVN, @MaMau, @SL, @MaNV)
-
-    SELECT @MaCTB AS MaCTB
+    INSERT INTO ChiTietHDB (MaHDB, MaSP, SizeVN, MaMau, SL, DonGia)
+    VALUES (@MaHDB, @MaSP, @SizeVN, @MaMau, @SL, @DonGia)
 END
 GO
-
---EXEC sp_ThemChiTietHDB 
---    @MaHDB = {0}, 
---    @MaKH = {1}, 
---    @MaSP = {2}, 
---    @SizeVN = {3}, 
---    @MaMau = {4}, 
---    @SL = {5}, 
---    @MaNV = {6}
+--EXEC sp_ThemChiTietHDB
+    --@MaHDB = {0},
+    --@MaSP = {1},
+    --@SizeVN = {2},
+    --@MaMau = {3},
+    --@SL = {4},
+    --@DonGia = {5}
 
 
 CREATE PROCEDURE sp_SuaChiTietHDB
-    @MaCTB CHAR(20),
-    @MaKH CHAR(10),
+    @MaHDB CHAR(10),
     @MaSP CHAR(10),
     @SizeVN INT,
     @MaMau CHAR(10),
     @SL INT,
-    @MaNV CHAR(10)
+    @DonGia INT
 AS
 BEGIN
     UPDATE ChiTietHDB
-    SET MaKH = @MaKH,
-        MaSP = @MaSP,
-        SizeVN = @SizeVN,
-        MaMau = @MaMau,
-        SL = @SL,
-        MaNV = @MaNV
-    WHERE MaCTB = @MaCTB
+    SET SL = @SL,
+        DonGia = @DonGia
+    WHERE MaHDB = @MaHDB AND MaSP = @MaSP AND SizeVN = @SizeVN AND MaMau = @MaMau
 END
 GO
---EXEC sp_SuaChiTietHDB 
---    @MaCTB = {0}, 
---    @MaKH = {1}, 
---    @MaSP = {2}, 
---    @SizeVN = {3}, 
---    @MaMau = {4}, 
---    @SL = {5}, 
---    @MaNV = {6}
+--EXEC sp_SuaChiTietHDB
+    --@MaHDB = {0},
+    --@MaSP= {1},
+    --@SizeVN = {2},
+    --@MaMau = {3},
+    --@SL = {4},
+    --@DonGia = {5}
 
 
 CREATE PROCEDURE sp_XoaChiTietHDB
-    @MaCTB CHAR(20)
+    @MaHDB CHAR(10),
+    @MaSP CHAR(10),
+    @SizeVN INT,
+    @MaMau CHAR(10)
 AS
 BEGIN
-    DELETE FROM ChiTietHDB WHERE MaCTB = @MaCTB
+    DELETE FROM ChiTietHDB
+    WHERE MaHDB = @MaHDB AND MaSP = @MaSP AND SizeVN = @SizeVN AND MaMau = @MaMau
 END
 GO
---EXEC sp_XoaChiTietHDB 
---    @MaCTB = {0}
+--EXEC sp_XoaChiTietHDB
+    --@MaHDB = {0},
+    --@MaSP = {1},
+    --@SizeVN = {2},
+    --@MaMau = {3}

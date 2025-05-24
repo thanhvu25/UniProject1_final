@@ -30,43 +30,43 @@ namespace DAL
 
         public bool themCtHDB(DTO_CtHDB ctHDB)
         {
-            string sql = "EXEC sp_ThemChiTietHDB   @MaHDB, @MaKH, @MaSP, @SizeVN, @MaMau, @SL, @MaNV ";
+            string sql = "EXEC sp_ThemChiTietHDB @MaHDB, @MaSP, @SizeVN, @MaMau, @SL, @DonGia ";
             var parameters = new Dictionary<string, object>
             {
-                {  "@MaHDB", ctHDB.MaHDB },
-                { "@MaKH", ctHDB.MaKH },
+                { "@MaHDB", ctHDB.MaHDB },
                 { "@MaSP", ctHDB.MaSP },
                 { "@SizeVN", ctHDB.SizeVN },
                 { "@MaMau", ctHDB.MaMau },
                 { "@SL", ctHDB.SL },
-                { "@MaNV", ctHDB.MaNV }           
+                { "@DonGia" , ctHDB.DonGia }           
             };
             return ExecuteNonQuery(sql, parameters);
         }
 
         public bool suaCtHDB(DTO_CtHDB ctHDB)
         {
-            string sql = "EXEC sp_SuaChiTietHDB  @MaCTB, @MaKH, @MaSP, @SizeVN, @MaMau, @SL, @MaNV";
+            string sql = "EXEC sp_SuaChiTietHDB @MaHDB, @MaSP, @SizeVN, @MaMau, @SL, @DonGia ";
             var parameters = new Dictionary<string, object>
             {
-                {  "@MaCTB", ctHDB.MaCTB },              
-                //{ "@MaHDB", ctHDB.MaHDB },
+                { "@MaHDB", ctHDB.MaHDB },
                 { "@MaSP", ctHDB.MaSP },
                 { "@SizeVN", ctHDB.SizeVN },
                 { "@MaMau", ctHDB.MaMau },
-                { "@MaKH", ctHDB.MaKH },
                 { "@SL", ctHDB.SL },
-                { "@MaNV", ctHDB.MaNV }
+                { "@DonGia" , ctHDB.DonGia }
             };
             return ExecuteNonQuery(sql, parameters);
         }
 
         public bool xoaCtHDB(DTO_CtHDB ctHDB)
         {
-            string sql = "EXEC sp_XoaChiTietHDB  @MaCTB";
+            string sql = "EXEC sp_XoaChiTietHDB @MaHDB, @MaSP, @SizeVN, @MaMau ";
             var parameters = new Dictionary<string, object>
             {
-                { "@MaCTB", ctHDB.MaCTB }
+                { "@MaHDB", ctHDB.MaHDB },
+                { "@MaSP", ctHDB.MaSP },
+                { "@SizeVN", ctHDB.SizeVN },
+                { "@MaMau", ctHDB.MaMau }
             };
             return ExecuteNonQuery(sql, parameters);
         }

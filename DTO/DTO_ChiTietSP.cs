@@ -35,12 +35,11 @@ namespace DTO
             this.TenMau = tenMau;
         }
 
-        public DTO_ChiTietSP(string maSP, int sizeVN, string maMau, string tenMau)
+        public DTO_ChiTietSP(string maSP, int sizeVN, string maMau)
         {
             this.MaSP = maSP;
             this.SizeVN = sizeVN;
             this.MaMau = maMau;
-            this.TenMau = tenMau;
         }
     }
 

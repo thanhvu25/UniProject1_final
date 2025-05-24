@@ -100,17 +100,17 @@ namespace DAL
         /// <returns></returns>
         public DataTable getSanPham_CT()
         {
-            string sql = "SELECT SanPham_CT.MaSP, TenSP, SizeVN, MaMau, TenMau FROM SanPham_CT INNER JOIN SanPham on SanPham_CT.MaSP = SanPham.MaSP";
+            string sql = "SELECT SanPham_CT.MaSP, TenSP, SizeVN, MauSac.MaMau, TenMau\r\nFROM SanPham_CT INNER JOIN SanPham \r\nON SanPham_CT.MaSP = SanPham.MaSP INNER JOIN MauSac\r\nON SanPham_CT.MaMau = MauSac.MaMau";
             return ExecuteQuery(sql);
         }
         public DataTable getCTSPForBH()
         {
-            string sql = "SELECT SanPham_CT.MaSP, TenSP, SanPham_CT.SizeVN, TenMau, SLTon\r\nFROM SanPham_CT INNER JOIN Kho\r\nON SanPham_CT.MaSP = Kho.MaSP \r\nAND SanPham_CT.SizeVN = Kho.SizeVN \r\nAND SanPham_CT.MaMau = Kho.MaMau INNER JOIN SanPham\r\nON SanPham_CT.MaSP = SanPham.MaSP";
+            string sql = "SELECT SanPham_CT.MaSP, TenSP, SanPham_CT.SizeVN, SLTon\r\nFROM SanPham_CT INNER JOIN Kho\r\nON SanPham_CT.MaSP = Kho.MaSP \r\nAND SanPham_CT.SizeVN = Kho.SizeVN \r\nAND SanPham_CT.MaMau = Kho.MaMau INNER JOIN SanPham\r\nON SanPham_CT.MaSP = SanPham.MaSP";
             return ExecuteQuery(sql);
         }
         public DataTable getCTSPForSP(string maSP)
         {
-            string sql = "SELECT SanPham_CT.MaSP, TenSP, SizeVN, MaMau, TenMau FROM SanPham_CT INNER JOIN SanPham on SanPham_CT.MaSP = SanPham.MaSP WHERE SanPham_CT.MaSP = @MaSP";
+            string sql = "SELECT SanPham_CT.MaSP, TenSP, SizeVN,  TenMau \r\nFROM SanPham_CT INNER JOIN SanPham \r\nON SanPham_CT.MaSP = SanPham.MaSP INNER JOIN MauSac\r\nON SanPham_CT.MaMau = MauSac.MaMau\r\nWHERE SanPham_CT.MaSP = @MaSP";
             Dictionary<string, object> parameters = new Dictionary<string, object>
             {
                 { "@MaSP", maSP }
@@ -136,8 +136,7 @@ namespace DAL
             {
                 { "@MaSP", sp_ct.MaSP },
                 { "@SizeVN", sp_ct.SizeVN },
-                { "@MaMau", sp_ct.MaMau },
-                { "@TenMau", sp_ct.TenMau }
+                { "@MaMau", sp_ct.MaMau }
             };
             return ExecuteNonQuery(sql, parameters);
         }

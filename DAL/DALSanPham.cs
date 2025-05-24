@@ -13,7 +13,7 @@ namespace DAL
     {
         public DataTable getSanPham()
         {
-            string sql = "SELECT SanPham.MaSP, TenSP, TenTH, DonGia, SL = SUM(Kho.SLTon) FROM SanPham LEFT JOIN Kho ON SanPham.MaSP = Kho.MaSP INNER JOIN ThuongHieu ON ThuongHieu.MaTH = SanPham.MaTH GROUP BY SanPham.MaSP, TenSP, TenTH, DonGia";
+            string sql = "SELECT SanPham.MaSP, TenSP, TenTH, SanPham.DonGia, SL = SUM(ISNULL(Kho.SLTon, 0)) \r\nFROM SanPham LEFT JOIN Kho \r\nON SanPham.MaSP = Kho.MaSP INNER JOIN ChiTietHDN\r\nON SanPham.MaSP = ChiTietHDN.MaSP INNER JOIN HDN\r\nON ChiTietHDN.MaHDN = HDN.MaHDN INNER JOIN ThuongHieu\r\nON HDN.MaHDN = ThuongHieu.MaTH\r\nGROUP BY SanPham.MaSP, TenSP, TenTH, SanPham.DonGia";
             return ExecuteQuery(sql);
         }
         public DataTable getSanPhamForCombo()
@@ -34,11 +34,10 @@ namespace DAL
 
         public bool themSP(DTOSanPham sp)
         {
-            string sql = "EXEC sp_ThemSanPham @TenSP, @MaTH, @DonGia";
+            string sql = "EXEC sp_ThemSanPham @TenSP, @DonGia";
             var parameters = new Dictionary<string, object>
             {
                 { "@TenSP", sp.TenSP },
-                { "@MaTH", sp.MaTH },
                 { "@DonGia", sp.DonGia }
             };
             return ExecuteNonQuery(sql, parameters);
@@ -46,12 +45,11 @@ namespace DAL
 
         public bool suaSP(DTOSanPham sp)
         {
-            string sql = "EXEC sp_SuaSanPham @MaSP, @TenSP, @MaTH, @DonGia";
+            string sql = "EXEC sp_SuaSanPham @MaSP, @TenSP, @DonGia";
             var parameters = new Dictionary<string, object>
             {
                 { "@MaSP", sp.MaSP },
                 { "@TenSP", sp.TenSP },
-                { "@MaTH", sp.MaTH },
                 { "@DonGia", sp.DonGia }
             };
             return ExecuteNonQuery(sql, parameters);

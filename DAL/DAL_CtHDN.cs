@@ -29,16 +29,15 @@ namespace DAL
 
         public bool themCtHDN(DTO_CtHDN cthdn)
         {
-            string sql = "EXEC sp_ThemChiTietHDN   @MaHDN,  @MaTH, @MaSP, @SizeVN, @MaMau, @SL, @MaNV";
+            string sql = "EXEC sp_ThemChiTietHDN @MaHDN, @MaSP, @SizeVN, @MaMau, @SL, @DonGia ";
             var parameters = new Dictionary<string, object>
             {
-                {  "@MaHDN", cthdn.MaHDN },
-                { "@MaTH", cthdn.MaTH },
+                { "@MaHDN", cthdn.MaHDN },
                 { "@MaSP", cthdn.MaSP },
                 { "@SizeVN", cthdn.SizeVN },
                 { "@MaMau", cthdn.MaMau },
                 { "@SL", cthdn.SL },
-                { "@MaNV", cthdn.MaNV }
+                { "@DonGia", cthdn.DonGia }
             
             };
             return ExecuteNonQuery(sql, parameters);
@@ -46,27 +45,28 @@ namespace DAL
 
         public bool suaCtHDN(DTO_CtHDN cthdn)
         {
-            string sql = "EXEC sp_SuaChiTietHDN   @MaCTN, @MaTH, @MaSP, @SizeVN,  @MaMau , @SL, @MaNV";
+            string sql = "EXEC sp_SuaChiTietHDN @MaHDN, @MaSP, @SizeVN, @MaMau, @SL, @DonGia";
             var parameters = new Dictionary<string, object>
             {
-                { "@MaCTN", cthdn.MaCTN },
-                //{  "@MaHDN", cthdn.MaHDN },
-                { "@MaTH", cthdn.MaTH },
+                { "@MaHDN", cthdn.MaHDN },
                 { "@MaSP", cthdn.MaSP },
                 { "@SizeVN", cthdn.SizeVN },
                 { "@MaMau", cthdn.MaMau },
                 { "@SL", cthdn.SL },
-                { "@MaNV", cthdn.MaNV }
+                { "@DonGia", cthdn.DonGia }
             };
             return ExecuteNonQuery(sql, parameters);
         }
 
         public bool xoaCtHDN(DTO_CtHDN cthdn)
         {
-            string sql = "EXEC sp_XoaChiTietHDN   @MaCTN";
+            string sql = "EXEC sp_XoaChiTietHDN @MaHDN, @MaSP, @SizeVN, @MaMau ";
             var parameters = new Dictionary<string, object>
             {
-                { "@MaCTN", cthdn.MaCTN }
+                { "@MaHDN", cthdn.MaHDN },
+                { "@MaSP", cthdn.MaSP },
+                { "@SizeVN", cthdn.SizeVN },
+                { "@MaMau", cthdn.MaMau }
             };
             return ExecuteNonQuery(sql, parameters);
         }

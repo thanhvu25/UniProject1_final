@@ -12,10 +12,10 @@ CREATE TABLE TaiKhoan
 MK CHAR(20), 
 TenHT NVARCHAR(20) NOT NULL
 )	
-INSERT INTO TaiKhoan(TenTK, MK, TenHT)
-VALUES
-('ad','adadad',N'Quản lý'),
-('nv','nvnvnv',N'Nhân viên')
+--INSERT INTO TaiKhoan(TenTK, MK, TenHT)
+--VALUES
+--('ad','ad',N'Quản lý'),
+--('nv','nv',N'Nhân viên')
 
 --KHÁCH HÀNG
 CREATE TABLE KhachHang
@@ -51,7 +51,6 @@ SdtTH CHAR(20) UNIQUE
 CREATE TABLE SanPham
 (MaSP CHAR(10) PRIMARY KEY,
 TenSP NVARCHAR(50) NOT NULL,
-MaTH CHAR(10) REFERENCES ThuongHieu(MaTH) ON UPDATE CASCADE ON DELETE CASCADE,
 DonGia INT DEFAULT 0
 )
 
@@ -70,7 +69,6 @@ CREATE TABLE SanPham_CT
 (MaSP CHAR(10),
 SizeVN INT,
 MaMau CHAR(10),
-TenMau NVARCHAR(50),
 PRIMARY KEY (MaSP, SizeVN, MaMau),
 FOREIGN KEY (MaSP) REFERENCES SanPham(MaSP) ON UPDATE CASCADE ON DELETE CASCADE,
 FOREIGN KEY (SizeVN) REFERENCES Size(SizeVN) ON UPDATE CASCADE ON DELETE CASCADE,
@@ -84,7 +82,7 @@ SizeVN INT,
 MaMau CHAR(10),
 SLTon INT DEFAULT 0,
 PRIMARY KEY (MaSP, SizeVN, MaMau),
-CONSTRAINT FK_Kho_CTSP FOREIGN KEY (MaSP, SizeVN, MaMau) REFERENCES SanPham_CT(MaSP, SizeVN, MaMau) ON UPDATE CASCADE ON DELETE CASCADE
+CONSTRAINT FK_Kho_CTSP FOREIGN KEY (MaSP) REFERENCES SanPham(MaSP) ON UPDATE CASCADE ON DELETE CASCADE
 )
 
 --KHUYẾN MÃI
@@ -101,86 +99,150 @@ HangKH NVARCHAR(20)
 --HÓA ĐƠN NHẬP
 CREATE TABLE HDN
 (MaHDN CHAR(10) PRIMARY KEY,
+MaTH CHAR(10) REFERENCES ThuongHieu(MaTH) ON UPDATE CASCADE ON DELETE CASCADE,
 NgayNhap DATE NOT NULL,
-DonGia INT DEFAULT 0
+TongHD INT DEFAULT 0,
+MaNV CHAR(10) REFERENCES NhanVien(MaNV) ON UPDATE CASCADE ON DELETE CASCADE
 )
 
 --HÓA ĐƠN BÁN
 CREATE TABLE HDB
 (MaHDB CHAR(10) PRIMARY KEY,
+MaKH CHAR(10) REFERENCES KhachHang(MaKH) ON UPDATE CASCADE ON DELETE CASCADE,
 NgayBan DATE NOT NULL,
-DonGia INT DEFAULT 0
+TongHD INT DEFAULT 0,
+MaNV CHAR(10) REFERENCES NhanVien(MaNV) ON UPDATE CASCADE ON DELETE CASCADE
 )
 
 --CHI TIẾT BÁN
 CREATE TABLE ChiTietHDB
-(MaCTB CHAR(20) PRIMARY KEY,
-MaHDB CHAR(10) REFERENCES HDB(MaHDB) ON UPDATE CASCADE ON DELETE CASCADE,
-MaKH CHAR(10) REFERENCES KhachHang(MaKH) ON UPDATE CASCADE,
-
-MaSP CHAR(10),
+(MaHDB CHAR(10) REFERENCES HDB(MaHDB) ON UPDATE CASCADE ON DELETE CASCADE,
+MaSP CHAR(10) REFERENCES SanPham(MaSP) ON UPDATE CASCADE ON DELETE CASCADE,
 SizeVN INT,
 MaMau CHAR(10),
 
+PRIMARY KEY (MaHDB, MaSP, SizeVN, MaMau), 
+
 SL INT DEFAULT 0,
-MaNV CHAR(10) REFERENCES NhanVien(MaNV) ON UPDATE CASCADE,
-CONSTRAINT FK_CTBan_CTSP FOREIGN KEY (MaSP, SizeVN, MaMau) REFERENCES SanPham_CT(MaSP, SizeVN, MaMau) ON UPDATE CASCADE ON DELETE CASCADE
+DonGia INT
 )
 
 --CHI TIẾT NHẬP
 CREATE TABLE ChiTietHDN
-(MaCTN CHAR(20) PRIMARY KEY,
-MaHDN CHAR(10) REFERENCES HDN(MaHDN) ON UPDATE CASCADE ON DELETE CASCADE,
-MaTH CHAR(10) REFERENCES ThuongHieu(MaTH),
-
-MaSP CHAR(10),
+(MaHDN CHAR(10) REFERENCES HDN(MaHDN) ON UPDATE CASCADE ON DELETE CASCADE,
+MaSP CHAR(10) REFERENCES SanPham(MaSP) ON UPDATE CASCADE ON DELETE CASCADE,
 SizeVN INT,
 MaMau CHAR(10),
 
+PRIMARY KEY (MaHDN, MaSP, SizeVN, MaMau), 
+
 SL INT DEFAULT 0,
-MaNV CHAR(10) REFERENCES NhanVien(MaNV) ON UPDATE CASCADE,
-CONSTRAINT FK_CTNhap_CTSP FOREIGN KEY (MaSP, SizeVN, MaMau) REFERENCES SanPham_CT(MaSP, SizeVN, MaMau) ON UPDATE CASCADE ON DELETE CASCADE
+DonGia INT
 )
 
 
 
+--------------------------------------------------------------------------------------------------------------------------------
 
- --
+--DAL SẢN PHẨM
+--Tính SLTon theo MaSP 
+SELECT SanPham.MaSP, TenSP, TenTH, SanPham.DonGia, SL = SUM(ISNULL(Kho.SLTon, 0)) 
+FROM SanPham LEFT JOIN Kho 
+ON SanPham.MaSP = Kho.MaSP INNER JOIN ChiTietHDN
+ON SanPham.MaSP = ChiTietHDN.MaSP INNER JOIN HDN
+ON ChiTietHDN.MaHDN = HDN.MaHDN INNER JOIN ThuongHieu
+ON HDN.MaHDN = ThuongHieu.MaTH
+GROUP BY SanPham.MaSP, TenSP, TenTH, SanPham.DonGia
+
+
+--DAL CHI TIẾT SP
+--lấy ctsp
+SELECT SanPham_CT.MaSP, TenSP, SizeVN, MauSac.MaMau, TenMau
+FROM SanPham_CT INNER JOIN SanPham 
+ON SanPham_CT.MaSP = SanPham.MaSP INNER JOIN MauSac
+ON SanPham_CT.MaMau = MauSac.MaMau
+
+--lấy ctsp cho BH
+SELECT SanPham_CT.MaSP, TenSP, SanPham_CT.SizeVN, SLTon
+FROM SanPham_CT INNER JOIN Kho
+ON SanPham_CT.MaSP = Kho.MaSP 
+AND SanPham_CT.SizeVN = Kho.SizeVN
+AND SanPham_CT.MaMau = Kho.MaMau INNER JOIN SanPham
+ON SanPham_CT.MaSP = SanPham.MaSP
+
+--lấy ctsp cho SP
+SELECT SanPham_CT.MaSP, TenSP, SizeVN,  TenMau 
+FROM SanPham_CT INNER JOIN SanPham 
+ON SanPham_CT.MaSP = SanPham.MaSP INNER JOIN MauSac
+ON SanPham_CT.MaMau = MauSac.MaMau
+WHERE SanPham_CT.MaSP = @MaSP
+
+--DAL KHÁCH HÀNG
+--KH + HDB
+SELECT KhachHang.MaKH, HoTen, HDB.MaHDB, NgayBan, HDB.DonGia, TenSP, SizeVN, TenMau
+FROM KhachHang INNER JOIN ChiTietHDB
+ON KhachHang.MaKH = ChiTietHDB.MaKH INNER JOIN HDB
+ON HDB.MaHDB = ChiTietHDB.MaHDB INNER JOIN MauSac
+ON ChiTietHDB.MaMau = MauSac.MaMau INNER JOIN SanPham
+ON SanPham.MaSP = ChiTietHDB.MaSP
+WHERE KhachHang.MaKH = @MaKH
+
+--DAL HDB
+
+
+--DAL HDN
+
+
+--DAL KHO
+--slton kho thấp
+SELECT Kho.MaSP, TenSP, Kho.SizeVN, TenMau, ThuongHieu.TenTH, SLTon 
+FROM Kho INNER JOIN SanPham 
+ON SanPham.MaSP = Kho.MaSP INNER JOIN SanPham_CT
+ON SanPham.MaSP = SanPham_CT.MaSP INNER JOIN MauSac
+ON MauSac.MaMau = SanPham_CT.MaMau INNER JOIN ChiTietHDN
+ON SanPham.MaSP = ChiTietHDN.MaSP INNER JOIN HDN
+ON ChiTietHDN.MaHDN = HDN.MaHDN INNER JOIN ThuongHieu
+ON ThuongHieu.MaTH = HDN.MaTH 
+WHERE SLTon <= 10
+
+--getKho
+SELECT Kho.MaSP, TenSP, Kho.SizeVN, TenMau, ThuongHieu.TenTH, SLTon
+FROM Kho INNER JOIN SanPham 
+ON SanPham.MaSP = Kho.MaSP INNER JOIN SanPham_CT
+ON SanPham.MaSP = SanPham_CT.MaSP INNER JOIN MauSac
+ON MauSac.MaMau = SanPham_CT.MaMau INNER JOIN ChiTietHDN
+ON SanPham.MaSP = ChiTietHDN.MaSP INNER JOIN HDN
+ON ChiTietHDN.MaHDN = HDN.MaHDN INNER JOIN ThuongHieu
+ON ThuongHieu.MaTH = HDN.MaTH 
+
+--
+SELECT Kho.MaSP, TenSP, kho.SizeVN, TenMau, ThuongHieu.TenTH, SLTon 
+FROM Kho INNER JOIN SanPham 
+ON SanPham.MaSP = Kho.MaSP INNER JOIN SanPham_CT
+ON SanPham.MaSP = SanPham_CT.MaSP INNER JOIN MauSac
+ON MauSac.MaMau = SanPham_CT.MaMau INNER JOIN ChiTietHDN
+ON SanPham.MaSP = ChiTietHDN.MaSP INNER JOIN HDN
+ON ChiTietHDN.MaHDN = HDN.MaHDN INNER JOIN ThuongHieu
+ON ThuongHieu.MaTH = HDN.MaTH  
+WHERE Kho.MaSP = @MaSP
+
+--
 SELECT MaKH, HoTen, HangKH
 FROM KhachHang
 
---
-SELECT SanPham_CT.MaSP, TenSP, SizeVN, MaMau, TenMau
-FROM SanPham_CT INNER JOIN SanPham
-on SanPham_CT.MaSP = SanPham.MaSP
 
---Kho
-SELECT Kho.MaSP, TenSP, SizeVN, TenMau, ThuongHieu.TenTH, SLTon 
-FROM Kho INNER JOIN SanPham 
-ON Kho.MaSP = SanPham.MaSP INNER JOIN ThuongHieu 
-ON SanPham.MaTH = ThuongHieu.MaTH INNER JOIN MauSac 
-ON MauSac.MaMau = Kho.MaMau
 
 --sản phẩm + slton
-SELECT SanPham.MaSP, TenSP, TenTH, Kho.SizeVN, Kho.MaMau, DonGia, SLTon
+SELECT SanPham.MaSP, TenSP, TenTH, Kho.SizeVN, Kho.MaMau, SanPham.DonGia, SLTon
 FROM SanPham INNER JOIN Kho
-ON SanPham.MaSP = Kho.MaSP INNER JOIN ThuongHieu
-ON ThuongHieu. MaTH = SanPham.MaTH
+ON SanPham.MaSP = Kho.MaSP INNER JOIN ChiTietHDN
+ON SanPham.MaSP = ChiTietHDN.MaSP INNER JOIN HDN
+ON ChiTietHDN.MaHDN = HDN.MaHDN INNER JOIN ThuongHieu
+ON ThuongHieu.MaTH = HDN.MaTH 
 
---slton kho thấp
-SELECT Kho.MaSP, TenSP, SizeVN, TenMau, ThuongHieu.TenTH, SLTon 
-FROM Kho INNER JOIN SanPham 
-ON Kho.MaSP = SanPham.MaSP INNER JOIN ThuongHieu 
-ON SanPham.MaTH = ThuongHieu.MaTH INNER JOIN MauSac 
-ON MauSac.MaMau = Kho.MaMau
-WHERE SLTon <= 10
 
---Tính SLTon theo MaSP 
-SELECT SanPham.MaSP, TenSP, TenTH, DonGia, SL = SUM(ISNULL(Kho.SLTon, 0)) 
-FROM SanPham LEFT JOIN Kho 
-ON SanPham.MaSP = Kho.MaSP INNER JOIN ThuongHieu 
-ON ThuongHieu.MaTH = SanPham.MaTH
-GROUP BY SanPham.MaSP, TenSP, TenTH, DonGia
+
+
 
 --CT + Kho
 SELECT SanPham_CT.MaSP, TenSP, SanPham_CT.SizeVN, TenMau, SLTon
@@ -203,14 +265,7 @@ ON KhachHang.MaKH = ChiTietHDB.MaKH INNER JOIN HDB
 ON HDB.MaHDB = ChiTietHDB.MaHDB
 GROUP BY KhachHang.MaKH, HoTen
 
---KH + HDB
-SELECT KhachHang.MaKH, HoTen, HDB.MaHDB, NgayBan, HDB.DonGia, TenSP, SizeVN, TenMau
-FROM KhachHang INNER JOIN ChiTietHDB
-ON KhachHang.MaKH = ChiTietHDB.MaKH INNER JOIN HDB
-ON HDB.MaHDB = ChiTietHDB.MaHDB INNER JOIN MauSac
-ON ChiTietHDB.MaMau = MauSac.MaMau INNER JOIN SanPham
-ON SanPham.MaSP = ChiTietHDB.MaSP
-WHERE KhachHang.MaKH = @MaKH
+
 
 --CTB +++
 SELECT MaCTB, ChiTietHDB.MaHDB, HoTen, TenSP, SizeVN, TenMau, SL, MaNV

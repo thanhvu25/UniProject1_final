@@ -29,23 +29,27 @@ namespace DAL
 
         public bool themHDB(DTO_HDB hdb)
         {
-            string sql = "EXEC sp_ThemHDB @NgayBan, @DonGia";
+            string sql = "EXEC sp_ThemHDB  @MaKH, @NgayBan, @TongHD, @MaNV ";
             var parameters = new Dictionary<string, object>
             {
+                { "@MaKH", hdb.MaKH },
                 { "@NgayBan", hdb.NgayBan },
-                { "@DonGia", hdb.DonGia }
+                { "@TongHD", hdb.TongHD },
+                { "@MaNV", hdb.MaNV }              
             };
             return ExecuteNonQuery(sql, parameters);
         }
 
         public bool suaHDB(DTO_HDB hdb)
         {
-            string sql = "EXEC sp_SuaHDB @MaHDB, @NgayBan, @DonGia";
+            string sql = "EXEC sp_SuaHDB, @MaHDB, @MaKH, @NgayBan, @TongHD, @MaNV ";
             var parameters = new Dictionary<string, object>
             {
                 { "@MaHDB", hdb.MaHDB },
+                { "@MaKH", hdb.MaKH },
                 { "@NgayBan", hdb.NgayBan },
-                { "@DonGia", hdb.DonGia }
+                { "@TongHD", hdb.TongHD },
+                { "@MaNV", hdb.MaNV }
             };
             return ExecuteNonQuery(sql, parameters);
         }
