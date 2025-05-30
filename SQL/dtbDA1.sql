@@ -9,7 +9,7 @@ GO
 ----------------------------Tạo bảng------------------------------------
 CREATE TABLE TaiKhoan
 (TenTK CHAR(20) PRIMARY KEY,
-MK CHAR(20), 
+MK VARCHAR(100), 
 TenHT NVARCHAR(20) NOT NULL
 )	
 --INSERT INTO TaiKhoan(TenTK, MK, TenHT)
@@ -82,8 +82,11 @@ SizeVN INT,
 MaMau CHAR(10),
 SLTon INT DEFAULT 0,
 PRIMARY KEY (MaSP, SizeVN, MaMau),
-CONSTRAINT FK_Kho_CTSP FOREIGN KEY (MaSP) REFERENCES SanPham(MaSP) ON UPDATE CASCADE ON DELETE CASCADE
+CONSTRAINT FK_Kho_CTSP FOREIGN KEY (MaSP) REFERENCES SanPham(MaSP) ON UPDATE CASCADE ON DELETE CASCADE,
+CONSTRAINT FK_Kho_Size FOREIGN KEY (SizeVN) REFERENCES Size(SizeVN) ON UPDATE CASCADE ON DELETE CASCADE,
+CONSTRAINT FK_Kho_Mau FOREIGN KEY (MaMau) REFERENCES MauSac(MaMau) ON UPDATE CASCADE ON DELETE CASCADE
 )
+
 
 --KHUYẾN MÃI
 CREATE TABLE KhuyenMai
@@ -180,29 +183,33 @@ WHERE SanPham_CT.MaSP = @MaSP
 --DAL KHÁCH HÀNG
 --KH + HDB
 SELECT KhachHang.MaKH, HoTen, HDB.MaHDB, NgayBan, HDB.DonGia, TenSP, SizeVN, TenMau
-FROM KhachHang INNER JOIN ChiTietHDB
-ON KhachHang.MaKH = ChiTietHDB.MaKH INNER JOIN HDB
-ON HDB.MaHDB = ChiTietHDB.MaHDB INNER JOIN MauSac
-ON ChiTietHDB.MaMau = MauSac.MaMau INNER JOIN SanPham
-ON SanPham.MaSP = ChiTietHDB.MaSP
+FROM KhachHang 
+INNER JOIN ChiTietHDB	ON KhachHang.MaKH = ChiTietHDB.MaKH 
+INNER JOIN HDB			ON HDB.MaHDB = ChiTietHDB.MaHDB 
+INNER JOIN MauSac		ON ChiTietHDB.MaMau = MauSac.MaMau 
+INNER JOIN SanPham		ON SanPham.MaSP = ChiTietHDB.MaSP
 WHERE KhachHang.MaKH = @MaKH
 
 --DAL HDB
 
 
 --DAL HDN
-
+--getHDN: MaHDN, TenTH, NgayNhap, TongHD, TenNV
+SELECT HDN.MaHDN, TenTH, NgayNhap, TongHD, TenNV
+FROM HDN 
+INNER JOIN NhanVien		ON HDN.MaNV = NhanVien.MaNV 
+INNER JOIN ThuongHieu	ON HDN.MaTH = ThuongHieu.MaTH
 
 --DAL KHO
 --slton kho thấp
 SELECT Kho.MaSP, TenSP, Kho.SizeVN, TenMau, ThuongHieu.TenTH, SLTon 
-FROM Kho INNER JOIN SanPham 
-ON SanPham.MaSP = Kho.MaSP INNER JOIN SanPham_CT
-ON SanPham.MaSP = SanPham_CT.MaSP INNER JOIN MauSac
-ON MauSac.MaMau = SanPham_CT.MaMau INNER JOIN ChiTietHDN
-ON SanPham.MaSP = ChiTietHDN.MaSP INNER JOIN HDN
-ON ChiTietHDN.MaHDN = HDN.MaHDN INNER JOIN ThuongHieu
-ON ThuongHieu.MaTH = HDN.MaTH 
+FROM Kho 
+INNER JOIN SanPham		ON SanPham.MaSP = Kho.MaSP 
+INNER JOIN SanPham_CT	ON SanPham.MaSP = SanPham_CT.MaSP 
+INNER JOIN MauSac		ON MauSac.MaMau = SanPham_CT.MaMau 
+INNER JOIN ChiTietHDN	ON SanPham.MaSP = ChiTietHDN.MaSP
+INNER JOIN HDN			ON ChiTietHDN.MaHDN = HDN.MaHDN 
+INNER JOIN ThuongHieu	ON ThuongHieu.MaTH = HDN.MaTH 
 WHERE SLTon <= 10
 
 --getKho
@@ -210,10 +217,20 @@ SELECT Kho.MaSP, TenSP, Kho.SizeVN, TenMau, ThuongHieu.TenTH, SLTon
 FROM Kho INNER JOIN SanPham 
 ON SanPham.MaSP = Kho.MaSP INNER JOIN SanPham_CT
 ON SanPham.MaSP = SanPham_CT.MaSP INNER JOIN MauSac
-ON MauSac.MaMau = SanPham_CT.MaMau INNER JOIN ChiTietHDN
-ON SanPham.MaSP = ChiTietHDN.MaSP INNER JOIN HDN
+ON MauSac.MaMau = SanPham_CT.MaMau LEFT JOIN ChiTietHDN
+ON SanPham.MaSP = ChiTietHDN.MaSP LEFT JOIN HDN
 ON ChiTietHDN.MaHDN = HDN.MaHDN INNER JOIN ThuongHieu
 ON ThuongHieu.MaTH = HDN.MaTH 
+
+SELECT Kho.MaSP, TenSP, Kho.SizeVN, TenMau, ThuongHieu.TenTH, SLTon
+FROM Kho 
+INNER JOIN SanPham ON SanPham.MaSP = Kho.MaSP 
+INNER JOIN SanPham_CT ON SanPham.MaSP = SanPham_CT.MaSP 
+INNER JOIN MauSac ON MauSac.MaMau = SanPham_CT.MaMau 
+LEFT JOIN ChiTietHDN ON SanPham.MaSP = ChiTietHDN.MaSP 
+LEFT JOIN HDN ON ChiTietHDN.MaHDN = HDN.MaHDN 
+LEFT JOIN ThuongHieu ON ThuongHieu.MaTH = HDN.MaTH
+
 
 --
 SELECT Kho.MaSP, TenSP, kho.SizeVN, TenMau, ThuongHieu.TenTH, SLTon 

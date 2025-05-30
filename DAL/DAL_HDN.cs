@@ -13,7 +13,7 @@ namespace DAL
     {
         public DataTable getHDN()
         {
-            string sql = "SELECT * FROM HDN";
+            string sql = "SELECT HDN.MaHDN, TenTH, NgayNhap, TongHD, TenNV\r\nFROM HDN \r\nINNER JOIN NhanVien\t\tON HDN.MaNV = NhanVien.MaNV \r\nINNER JOIN ThuongHieu\tON HDN.MaTH = ThuongHieu.MaTH";
             return ExecuteQuery(sql);
         }
 

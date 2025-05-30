@@ -452,19 +452,26 @@ CREATE PROCEDURE sp_ThemHDN
     @MaTH CHAR(10),
     @NgayNhap DATE,
     @TongHD INT,
-    @MaNV CHAR(10),
-    @MaHDN CHAR(10) 
+    @MaNV CHAR(10)
 AS
 BEGIN
-	DECLARE @MaMoi CHAR(10)
-    -- Sinh mã tự động: N0001, N0002...
-    SELECT @MaMoi = 'N' + RIGHT('0000' + CAST(ISNULL(MAX(CAST(SUBSTRING(MaHDN, 2, 4) AS INT)) + 1, 1) AS VARCHAR), 4)
-    FROM HDN
+    DECLARE @MaMoi CHAR(10);
+    DECLARE @SoMoi INT;
+
+    -- Lấy mã lớn nhất hiện tại
+    SELECT @MaMoi = MAX(MaHDN) FROM HDN;
+
+    -- Nếu chưa có mã nào, khởi tạo giá trị mặc định
+    IF (@MaMoi IS NULL)
+        SET @MaMoi = 'N0000';
+
+    -- Tính số mới
+    SET @SoMoi = CAST(SUBSTRING(@MaMoi, 2, 4) AS INT) + 1;
+    SET @MaMoi = 'N' + RIGHT('0000' + CAST(@SoMoi AS VARCHAR(4)), 4);
 
     -- Thêm vào bảng
     INSERT INTO HDN (MaHDN, MaTH, NgayNhap, TongHD, MaNV)
-    VALUES (@MaMoi, @MaTH, @NgayNhap, @TongHD, @MaNV)
-
+    VALUES (@MaMoi, @MaTH, @NgayNhap, @TongHD, @MaNV);
 END
 GO
 --EXEC sp_ThemHDN

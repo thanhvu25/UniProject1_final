@@ -16,6 +16,15 @@ namespace DAL
             string sql = "SELECT * FROM ChitietHDN";
             return ExecuteQuery(sql);
         }
+        public DataTable getCtHDNForHDN(string maHDN)
+        {
+            string sql = "SELECT * FROM ChitietHDN WHERE MaHDN = @MaHDN";
+            var parameters = new Dictionary<string, object>
+            {
+                { "@MaHDN", maHDN }
+            };
+            return ExecuteQuery(sql, parameters);
+        }
 
         public int KiemTraMaTrung(string maCTN)
         {
