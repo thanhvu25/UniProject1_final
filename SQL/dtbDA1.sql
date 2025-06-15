@@ -8,11 +8,17 @@ GO
 
 ----------------------------Tạo bảng------------------------------------
 CREATE TABLE TaiKhoan
+<<<<<<< HEAD
 (ID INT PRIMARY KEY IDENTITY(1,1),
 TenTK CHAR(20) UNIQUE,
 MK VARCHAR(100), 
 TenHT NVARCHAR(20) NOT NULL,
 VaiTro CHAR(10) CHECK(VaiTro IN ('nv', 'ql')) DEFAULT null
+=======
+(TenTK CHAR(20) PRIMARY KEY,
+MK VARCHAR(100), 
+TenHT NVARCHAR(20) NOT NULL
+>>>>>>> a67220a4f4aec0f6fa333ec273d882b6a756ac55
 )	
 INSERT INTO TaiKhoan(TenTK, MK, TenHT, VaiTro)
 VALUES
@@ -86,7 +92,9 @@ SizeVN INT,
 MaMau CHAR(10),
 SLTon INT DEFAULT 0,
 PRIMARY KEY (MaSP, SizeVN, MaMau),
-CONSTRAINT FK_Kho_CTSP FOREIGN KEY (MaSP) REFERENCES SanPham(MaSP) ON UPDATE CASCADE ON DELETE CASCADE
+CONSTRAINT FK_Kho_CTSP FOREIGN KEY (MaSP) REFERENCES SanPham(MaSP) ON UPDATE CASCADE ON DELETE CASCADE,
+CONSTRAINT FK_Kho_Size FOREIGN KEY (SizeVN) REFERENCES Size(SizeVN) ON UPDATE CASCADE ON DELETE CASCADE,
+CONSTRAINT FK_Kho_Mau FOREIGN KEY (MaMau) REFERENCES MauSac(MaMau) ON UPDATE CASCADE ON DELETE CASCADE
 )
 
 
@@ -209,10 +217,17 @@ WHERE SanPham_CT.MaSP = @MaSP
 
 -------------------------------------------------------------------------------------------DAL KHÁCH HÀNG
 --KH + HDB
+<<<<<<< HEAD
 SELECT KhachHang.MaKH, HoTen, HDB.MaHDB, NgayBan, ChiTietHDB.DonGia, TenSP, SizeVN, TenMau
 FROM KhachHang 
 INNER JOIN HDB			ON KhachHang.MaKH = HDB.MaKH 
 INNER JOIN ChiTietHDB	ON HDB.MaHDB = ChiTietHDB.MaHDB 
+=======
+SELECT KhachHang.MaKH, HoTen, HDB.MaHDB, NgayBan, HDB.DonGia, TenSP, SizeVN, TenMau
+FROM KhachHang 
+INNER JOIN ChiTietHDB	ON KhachHang.MaKH = ChiTietHDB.MaKH 
+INNER JOIN HDB			ON HDB.MaHDB = ChiTietHDB.MaHDB 
+>>>>>>> a67220a4f4aec0f6fa333ec273d882b6a756ac55
 INNER JOIN MauSac		ON ChiTietHDB.MaMau = MauSac.MaMau 
 INNER JOIN SanPham		ON SanPham.MaSP = ChiTietHDB.MaSP
 WHERE KhachHang.MaKH = @MaKH
@@ -239,6 +254,7 @@ JOIN KhachHang ON HDB.MaKH = KhachHang.MaKH
 WHERE HDB.NgayBan BETWEEN @TuNgay AND @DenNgay
 GROUP BY HDB.MaHDB
 
+<<<<<<< HEAD
 --bcdoanhthu
 SELECT HDB.MaHDB, NgayBan, HDB.MaKH, HoTen, TongHD
 FROM HDB
@@ -250,6 +266,14 @@ ORDER BY HDB.NgayBan
 SELECT KhachHang.MaKH, HoTen, HDB.MaHDB, NgayBan
 FROM KhachHang 
 INNER JOIN HDB ON KhachHang.MaKH = HDB.MaKH 
+=======
+--DAL HDN
+--getHDN: MaHDN, TenTH, NgayNhap, TongHD, TenNV
+SELECT HDN.MaHDN, TenTH, NgayNhap, TongHD, TenNV
+FROM HDN 
+INNER JOIN NhanVien		ON HDN.MaNV = NhanVien.MaNV 
+INNER JOIN ThuongHieu	ON HDN.MaTH = ThuongHieu.MaTH
+>>>>>>> a67220a4f4aec0f6fa333ec273d882b6a756ac55
 
 -------------------------------------------------------------------------------------------DAL CtHDB
 --getCTHDBForHDB
@@ -329,7 +353,10 @@ ON SanPham.MaSP = ChiTietHDN.MaSP LEFT JOIN HDN
 ON ChiTietHDN.MaHDN = HDN.MaHDN INNER JOIN ThuongHieu
 ON ThuongHieu.MaTH = HDN.MaTH 
 
+<<<<<<< HEAD
 --??
+=======
+>>>>>>> a67220a4f4aec0f6fa333ec273d882b6a756ac55
 SELECT Kho.MaSP, TenSP, Kho.SizeVN, TenMau, ThuongHieu.TenTH, SLTon
 FROM Kho 
 INNER JOIN SanPham ON SanPham.MaSP = Kho.MaSP 
@@ -340,7 +367,11 @@ LEFT JOIN HDN ON ChiTietHDN.MaHDN = HDN.MaHDN
 LEFT JOIN ThuongHieu ON ThuongHieu.MaTH = HDN.MaTH
 
 
+<<<<<<< HEAD
 --??
+=======
+--
+>>>>>>> a67220a4f4aec0f6fa333ec273d882b6a756ac55
 SELECT Kho.MaSP, TenSP, kho.SizeVN, TenMau, ThuongHieu.TenTH, SLTon 
 FROM Kho 
 INNER JOIN SanPham 

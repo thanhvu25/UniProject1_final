@@ -2,6 +2,7 @@
 GO
 
 ----------------------------------------SẢN PHẨM------------------------------------------------
+<<<<<<< HEAD
 -- Nike (TH001)
 EXEC sp_ThemSanPham @TenSP = N'Nike Air Force 1', @MaTH = 'TH001', @DonGia = 2900000;
 EXEC sp_ThemSanPham @TenSP = N'Nike Dunk Low', @MaTH = 'TH001', @DonGia = 3500000;
@@ -61,6 +62,67 @@ EXEC sp_ThemSanPham @TenSP = N'Ananas Track 6', @MaTH = 'TH011', @DonGia = 80000
 EXEC sp_ThemSanPham @TenSP = N'Onitsuka Tiger Mexico 66', @MaTH = 'TH012', @DonGia = 3200000;
 EXEC sp_ThemSanPham @TenSP = N'Onitsuka Tiger Serrano', @MaTH = 'TH012', @DonGia = 2500000;
 EXEC sp_ThemSanPham @TenSP = N'Onitsuka Tiger Delegation EX', @MaTH = 'TH012', @DonGia = 3800000;
+=======
+-- Nike
+EXEC sp_ThemSanPham @TenSP = N'Nike Air Force 1', @DonGia = 2900000;
+EXEC sp_ThemSanPham @TenSP = N'Nike Dunk Low', @DonGia = 3500000;
+EXEC sp_ThemSanPham @TenSP = N'Nike Air Jordan 1 Mid', @DonGia = 4200000;
+
+-- Puma
+EXEC sp_ThemSanPham @TenSP = N'Puma Suede Classic', @DonGia = 2000000;
+EXEC sp_ThemSanPham @TenSP = N'Puma RS-X', @DonGia = 2500000;
+EXEC sp_ThemSanPham @TenSP = N'Puma Cali Star', @DonGia = 2300000;
+
+-- Adidas
+EXEC sp_ThemSanPham @TenSP = N'Adidas Ultraboost 22', @DonGia = 4500000;
+EXEC sp_ThemSanPham @TenSP = N'Adidas Superstar', @DonGia = 2500000;
+EXEC sp_ThemSanPham @TenSP = N'Adidas Stan Smith', @DonGia = 2600000;
+
+-- Converse
+EXEC sp_ThemSanPham @TenSP = N'Converse Chuck 70 High', @DonGia = 1900000;
+EXEC sp_ThemSanPham @TenSP = N'Converse Run Star Hike', @DonGia = 2600000;
+EXEC sp_ThemSanPham @TenSP = N'Converse One Star', @DonGia = 2100000;
+
+-- Vans
+EXEC sp_ThemSanPham @TenSP = N'Vans Old Skool', @DonGia = 1800000;
+EXEC sp_ThemSanPham @TenSP = N'Vans Sk8-Hi', @DonGia = 2000000;
+EXEC sp_ThemSanPham @TenSP = N'Vans Authentic', @DonGia = 1600000;
+
+-- New Balance
+EXEC sp_ThemSanPham @TenSP = N'New Balance 550', @DonGia = 3800000;
+EXEC sp_ThemSanPham @TenSP = N'New Balance 574', @DonGia = 2500000;
+EXEC sp_ThemSanPham @TenSP = N'New Balance 2002R', @DonGia = 4200000;
+
+-- MLB
+EXEC sp_ThemSanPham @TenSP = N'MLB Chunky Liner', @DonGia = 2800000;
+EXEC sp_ThemSanPham @TenSP = N'MLB Big Ball Chunky', @DonGia = 2500000;
+EXEC sp_ThemSanPham @TenSP = N'MLB Playball Origin', @DonGia = 2100000;
+
+-- Balenciaga
+EXEC sp_ThemSanPham @TenSP = N'Balenciaga Triple S', @DonGia = 26000000;
+EXEC sp_ThemSanPham @TenSP = N'Balenciaga Track', @DonGia = 23000000;
+EXEC sp_ThemSanPham @TenSP = N'Balenciaga Speed Trainer', @DonGia = 18500000;
+
+-- Alexander McQueen
+EXEC sp_ThemSanPham @TenSP = N'Alexander McQueen Oversized Sneaker', @DonGia = 16500000;
+EXEC sp_ThemSanPham @TenSP = N'Alexander McQueen Court Trainer', @DonGia = 14000000;
+EXEC sp_ThemSanPham @TenSP = N'Alexander McQueen Sprint Runner', @DonGia = 18000000;
+
+-- Biti's
+EXEC sp_ThemSanPham @TenSP = N'Biti''s Hunter X', @DonGia = 1000000;
+EXEC sp_ThemSanPham @TenSP = N'Biti''s Hunter Street', @DonGia = 850000;
+EXEC sp_ThemSanPham @TenSP = N'Biti''s Hunter Core', @DonGia = 950000;
+
+-- Ananas
+EXEC sp_ThemSanPham @TenSP = N'Ananas Urbas', @DonGia = 720000;
+EXEC sp_ThemSanPham @TenSP = N'Ananas Basas', @DonGia = 650000;
+EXEC sp_ThemSanPham @TenSP = N'Ananas Track 6', @DonGia = 800000;
+
+-- Onitsuka Tiger
+EXEC sp_ThemSanPham @TenSP = N'Onitsuka Tiger Mexico 66', @DonGia = 3200000;
+EXEC sp_ThemSanPham @TenSP = N'Onitsuka Tiger Serrano', @DonGia = 2500000;
+EXEC sp_ThemSanPham @TenSP = N'Onitsuka Tiger Delegation EX', @DonGia = 3800000;
+>>>>>>> a67220a4f4aec0f6fa333ec273d882b6a756ac55
 
 ----------------------------------------CHI TIẾT SẢN PHẨM------------------------------------------------
 INSERT INTO SanPham_CT (MaSP, SizeVN, MaMau) 

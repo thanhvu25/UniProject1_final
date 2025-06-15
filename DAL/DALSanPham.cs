@@ -38,7 +38,11 @@ namespace DAL
             var parameters = new Dictionary<string, object>
             {
                 { "@TenSP", sp.TenSP },
+<<<<<<< HEAD
                 { "@MaTH", sp.MaTH }, 
+=======
+                { "@MaTH", sp.MaTH },
+>>>>>>> a67220a4f4aec0f6fa333ec273d882b6a756ac55
                 { "@DonGia", sp.DonGia }
             };
             return ExecuteNonQuery(sql, parameters);

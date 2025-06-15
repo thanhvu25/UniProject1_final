@@ -41,7 +41,7 @@ namespace DAL
                 { "@MaKH", hdb.MaKH },
                 { "@NgayBan", hdb.NgayBan },
                 { "@TongHD", hdb.TongHD },
-                { "@MaNV", hdb.MaNV }              
+                { "@MaNV", hdb.MaNV }
             };
             return ExecuteNonQuery(sql, parameters);
         }
