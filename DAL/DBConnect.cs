@@ -55,6 +55,27 @@ namespace DAL
                 dongketnoi();
             }
         }
+        public string ExecuteScalarString(string sql, Dictionary<string, object> parameters = null)
+        {
+            try
+            {
+                ketnoi();
+                using (SqlCommand cmd = new SqlCommand(sql, con))
+                {
+                    if (parameters != null)
+                    {
+                        foreach (var param in parameters)
+                            cmd.Parameters.AddWithValue(param.Key, param.Value ?? DBNull.Value);
+                    }
+                    object result = cmd.ExecuteScalar();
+                    return result != null && result != DBNull.Value ? result.ToString() : null;
+                }
+            }
+            finally
+            {
+                dongketnoi();
+            }
+        }
 
         public bool ExecuteNonQuery(string sql, Dictionary<string, object> parameters = null) // trả ra dòng được thực thi
         {
@@ -78,7 +99,7 @@ namespace DAL
             }
         }
 
-        public DataTable ExecuteQuery(string sql, Dictionary<string, object> parameters = null) // trả ra dòng két quả
+        public DataTable ExecuteQuery(string sql, Dictionary<string, object> parameters = null)
         {
             try
             {
@@ -90,6 +111,15 @@ namespace DAL
                         foreach (var param in parameters)
                             cmd.Parameters.AddWithValue(param.Key, param.Value ?? DBNull.Value);
                     }
+
+                    //// Log SQL và tham số để debug
+                    //Console.WriteLine("SQL: " + sql);
+                    //if (parameters != null)
+                    //{
+                    //    foreach (var param in parameters)
+                    //        Console.WriteLine($"{param.Key}: {param.Value}");
+                    //}
+
                     SqlDataAdapter da = new SqlDataAdapter(cmd);
                     DataTable dt = new DataTable();
                     da.Fill(dt);
@@ -100,6 +130,33 @@ namespace DAL
             {
                 dongketnoi();
             }
+        }
+        public string ExecuteNonQueryWithOutput(string query, Dictionary<string, object> parameters, string outputParameterName, SqlDbType outputType)
+        {
+            try
+            {
+                ketnoi();
+                using (SqlCommand cmd = new SqlCommand(query, con))
+                {
+                    foreach (var param in parameters)
+                    {
+                        if (param.Key == outputParameterName)
+                        {
+                            var p = cmd.Parameters.Add(param.Key, outputType, 5);
+                            p.Direction = ParameterDirection.Output;
+                            continue;
+                        }
+                        cmd.Parameters.AddWithValue(param.Key, param.Value ?? DBNull.Value);
+                    }
+                    cmd.ExecuteNonQuery();
+                    return cmd.Parameters[outputParameterName].Value?.ToString();
+                }
+            }
+            finally
+            {
+                dongketnoi();
+            }
+
         }
 
     }

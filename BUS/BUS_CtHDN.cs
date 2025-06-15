@@ -17,7 +17,7 @@ namespace BUS
         {
             return dalcthdn.getCtHDN();
         }
-        public DataTable getCtHDNForHDN(string maHDN) 
+        public DataTable getCtHDNForHDN(string maHDN)
         {
             return dalcthdn.getCtHDNForHDN(maHDN);
         }

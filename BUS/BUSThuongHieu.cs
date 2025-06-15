@@ -13,11 +13,11 @@ namespace BUS
     public class BUSThuongHieu
     {
         DALThuongHieu dalth = new DALThuongHieu();
-        public DataTable getThuongHieu() 
+        public DataTable getThuongHieu()
         {
             return dalth.getThuongHieu();
         }
-        public DataTable getTHForHDN() 
+        public DataTable getTHForHDN()
         {
             return dalth.getTHForHDN();
         }

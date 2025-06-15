@@ -13,14 +13,36 @@ namespace BUS
     public class BUS_CtHDB
     {
         DAL_CtHDB dalcthdb = new DAL_CtHDB();
+
+        private static BUS_CtHDB instance;
+
+        public static BUS_CtHDB Instance
+        {
+            get
+            {
+                if (instance == null)
+                    instance = new BUS_CtHDB();
+                return instance;
+            }
+        }
+
         public DataTable getCtHDB()
         {
             return dalcthdb.getCtHDB();
         }
-        public int KiemTraMaTrung(string maCTB)
+        public DataTable getCtHDBByMaHDB(string maHDB)
         {
-            return dalcthdb.KiemTraMaTrung(maCTB);
+            return dalcthdb.getCtHDBByMaHDB(maHDB);
         }
+        public DataTable getHDBForHD(string maHDB)
+        {
+            return dalcthdb.getHDBForHD(maHDB);
+        }
+
+        //public int KiemTraMaTrung(string maCTB)
+        //{
+        //    return dalcthdb.KiemTraMaTrung(maCTB);
+        //}
         public bool themCtHDB(DTO_CtHDB ct)
         {
             return dalcthdb.themCtHDB(ct);

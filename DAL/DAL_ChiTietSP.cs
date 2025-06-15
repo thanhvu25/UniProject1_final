@@ -65,6 +65,16 @@ namespace DAL
             string sql = "SELECT MaMau, TenMau FROM MauSac";
             return ExecuteQuery(sql);
         }
+        public string GetMaMauByTen(string tenMau)
+        {
+            string sql = "SELECT MaMau FROM MauSac WHERE TenMau = @TenMau";
+            var parameters = new Dictionary<string, object>
+            {
+                { "@TenMau", tenMau }
+            };
+            return ExecuteScalarString(sql, parameters);
+        }
+
         public int KiemTraMaMauTrung(DTO_ChiTietSP mau)
         {
             string sql = "SELECT COUNT(*) FROM MauSac WHERE MaMau = @MaMau";

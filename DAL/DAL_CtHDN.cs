@@ -47,7 +47,7 @@ namespace DAL
                 { "@MaMau", cthdn.MaMau },
                 { "@SL", cthdn.SL },
                 { "@DonGia", cthdn.DonGia }
-            
+
             };
             return ExecuteNonQuery(sql, parameters);
         }
