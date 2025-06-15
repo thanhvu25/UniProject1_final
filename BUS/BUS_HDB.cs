@@ -17,6 +17,11 @@ namespace BUS
         {
             return dalhdb.getHDB();
         }
+        public string GetMaHDBMoiNhat()
+        {
+            return dalhdb.GetMaHDBMoiNhat();
+        }
+
         public int KiemTraMaTrung(string mahd)
         {
             return dalhdb.KiemTraMaTrung(mahd);
@@ -24,6 +29,10 @@ namespace BUS
         public bool themHDB(DTO_HDB hdb)
         {
             return dalhdb.themHDB(hdb);
+        }
+        public string themHDBAndGetMaHDB(DTO_HDB hdb)
+        {
+            return dalhdb.themHDBAndGetMaHDB(hdb);
         }
         public bool suaHDB(DTO_HDB hdb)
         {

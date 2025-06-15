@@ -12,7 +12,16 @@ namespace BUS
 {
     public class BUSNhanVien
     {
-        DALNhanVien dalnv = new DALNhanVien();
+        private DALNhanVien dalnv;
+        public BUSNhanVien()
+        {
+            dalnv = new DALNhanVien(); // GUI dùng cái này
+        }
+
+        public BUSNhanVien(DALNhanVien dalnv)
+        {
+            this.dalnv = dalnv;
+        }
         public DataTable getNhanVien() //lấy ttin bảng NV và đổ ra dgv
         {
             return dalnv.getNhanVien();

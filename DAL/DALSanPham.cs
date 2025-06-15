@@ -13,7 +13,7 @@ namespace DAL
     {
         public DataTable getSanPham()
         {
-            string sql = "SELECT SanPham.MaSP, TenSP, TenTH, SanPham.DonGia, SL = SUM(ISNULL(Kho.SLTon, 0)) \r\nFROM SanPham LEFT JOIN Kho \r\nON SanPham.MaSP = Kho.MaSP INNER JOIN ChiTietHDN\r\nON SanPham.MaSP = ChiTietHDN.MaSP INNER JOIN HDN\r\nON ChiTietHDN.MaHDN = HDN.MaHDN INNER JOIN ThuongHieu\r\nON HDN.MaHDN = ThuongHieu.MaTH\r\nGROUP BY SanPham.MaSP, TenSP, TenTH, SanPham.DonGia";
+            string sql = "SELECT SP.MaSP, SP.TenSP, TH.TenTH, SP.DonGia, SL = SUM(ISNULL(Kho.SLTon, 0))\r\nFROM SanPham SP\r\nLEFT JOIN Kho ON SP.MaSP = Kho.MaSP\r\nLEFT JOIN ThuongHieu TH ON SP.MaTH = TH.MaTH\r\nGROUP BY SP.MaSP, SP.TenSP, TH.TenTH, SP.DonGia ORDER BY SP.MaSP";
             return ExecuteQuery(sql);
         }
         public DataTable getSanPhamForCombo()
@@ -34,10 +34,11 @@ namespace DAL
 
         public bool themSP(DTOSanPham sp)
         {
-            string sql = "EXEC sp_ThemSanPham @TenSP, @DonGia";
+            string sql = "EXEC sp_ThemSanPham @TenSP, @MaTH, @DonGia";
             var parameters = new Dictionary<string, object>
             {
                 { "@TenSP", sp.TenSP },
+                { "@MaTH", sp.MaTH }, 
                 { "@DonGia", sp.DonGia }
             };
             return ExecuteNonQuery(sql, parameters);
@@ -45,11 +46,12 @@ namespace DAL
 
         public bool suaSP(DTOSanPham sp)
         {
-            string sql = "EXEC sp_SuaSanPham @MaSP, @TenSP, @DonGia";
+            string sql = "EXEC sp_SuaSanPham @MaSP, @TenSP, @MaTH, @DonGia";
             var parameters = new Dictionary<string, object>
             {
                 { "@MaSP", sp.MaSP },
                 { "@TenSP", sp.TenSP },
+                { "@MaTH", sp.MaTH },
                 { "@DonGia", sp.DonGia }
             };
             return ExecuteNonQuery(sql, parameters);

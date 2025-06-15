@@ -13,9 +13,13 @@ namespace BUS
     public class BUSThuongHieu
     {
         DALThuongHieu dalth = new DALThuongHieu();
-        public DataTable getThuongHieu() //lấy ttin bảng TH và đổ ra dgv
+        public DataTable getThuongHieu() 
         {
             return dalth.getThuongHieu();
+        }
+        public DataTable getTHForHDN() 
+        {
+            return dalth.getTHForHDN();
         }
         public int KiemTraMaTrung(string maTH)
         {

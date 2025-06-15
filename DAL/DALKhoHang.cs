@@ -18,7 +18,7 @@ namespace DAL
         }
         public DataTable getKhoHangForBH(string MaSP)
         {
-            string sql = "SELECT Kho.MaSP, TenSP, SizeVN, TenMau, ThuongHieu.TenTH, SLTon \r\nFROM Kho INNER JOIN SanPham INNER JOIN SanPham_CT\r\nON SanPham.MaSP = SanPham_CT.MaSP INNER JOIN MauSac\r\nON MauSac.MaMau = SanPham_CT.MaMau\r\nON SanPham.MaSP = Kho.MaSP INNER JOIN ChiTietHDN\r\nON SanPham.MaSP = ChiTietHDN.MaSP INNER JOIN HDN\r\nON ChiTietHDN.MaHDN = HDN.MaHDN INNER JOIN ThuongHieu\r\nON ThuongHieu.MaTH = HDN.MaTH WHERE Kho.MaSP = @MaSP";
+            string sql = "SELECT Kho.MaSP, TenSP, Kho.SizeVN, TenMau, ThuongHieu.TenTH, SLTon\r\nFROM Kho INNER JOIN SanPham INNER JOIN SanPham_CT\r\nON SanPham.MaSP = SanPham_CT.MaSP INNER JOIN MauSac\r\nON MauSac.MaMau = SanPham_CT.MaMau\r\nON SanPham.MaSP = Kho.MaSP INNER JOIN ChiTietHDN\r\nON SanPham.MaSP = ChiTietHDN.MaSP INNER JOIN HDN\r\nON ChiTietHDN.MaHDN = HDN.MaHDN INNER JOIN ThuongHieu\r\nON ThuongHieu.MaTH = HDN.MaTH WHERE Kho.MaSP = @MaSP";
             var parameters = new Dictionary<string, object>
         {
             {"@MaSP", MaSP}

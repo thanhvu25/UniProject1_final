@@ -231,6 +231,7 @@ EXEC sp_XoaThuongHieu @MaTH = '{0}'
 -----------------------------------------------------SẢN PHẨM----------------------------------------
 CREATE PROCEDURE sp_ThemSanPham
     @TenSP NVARCHAR(50),
+	@MaTH CHAR(10),
     @DonGia INT
 AS
 BEGIN
@@ -251,17 +252,19 @@ BEGIN
     SET @MaMoi = 'SP' + RIGHT('000' + CAST(@SoMoi AS VARCHAR(3)), 3)
 
     -- Thêm sản phẩm mới
-    INSERT INTO SanPham (MaSP, TenSP, DonGia)
-    VALUES (@MaMoi, @TenSP, @DonGia)
+    INSERT INTO SanPham (MaSP, TenSP, MaTH, DonGia)
+    VALUES (@MaMoi, @TenSP, @MaTH, @DonGia)
 END
 --EXEC sp_ThemSanPham 
 --    @TenSP = N'{0}',
---    @DonGia = {1}
+--    @MaTH = '{1}',
+--    @DonGia = {2}
 
 
 CREATE PROCEDURE sp_SuaSanPham
     @MaSP CHAR(10),
     @TenSP NVARCHAR(50),
+    @MaTH CHAR(10),
     @DonGia INT
 AS
 BEGIN
@@ -269,12 +272,14 @@ BEGIN
     UPDATE SanPham
     SET 
         TenSP = @TenSP,
+		MaTH = @MaTH,
         DonGia = @DonGia
     WHERE MaSP = @MaSP
 END
 --EXEC sp_SuaSanPham
 --    @MaSP = '{0}',
 --    @TenSP = N'{1}'
+--    @MaTH = '{2}',
 --    @DonGia = {3}
 
 CREATE PROCEDURE sp_XoaSanPham
@@ -452,19 +457,26 @@ CREATE PROCEDURE sp_ThemHDN
     @MaTH CHAR(10),
     @NgayNhap DATE,
     @TongHD INT,
-    @MaNV CHAR(10),
-    @MaHDN CHAR(10) 
+    @MaNV CHAR(10)
 AS
 BEGIN
-	DECLARE @MaMoi CHAR(10)
-    -- Sinh mã tự động: N0001, N0002...
-    SELECT @MaMoi = 'N' + RIGHT('0000' + CAST(ISNULL(MAX(CAST(SUBSTRING(MaHDN, 2, 4) AS INT)) + 1, 1) AS VARCHAR), 4)
-    FROM HDN
+    DECLARE @MaMoi CHAR(10);
+    DECLARE @SoMoi INT;
+
+    -- Lấy mã lớn nhất hiện tại
+    SELECT @MaMoi = MAX(MaHDN) FROM HDN;
+
+    -- Nếu chưa có mã nào, khởi tạo giá trị mặc định
+    IF (@MaMoi IS NULL)
+        SET @MaMoi = 'N0000';
+
+    -- Tính số mới
+    SET @SoMoi = CAST(SUBSTRING(@MaMoi, 2, 4) AS INT) + 1;
+    SET @MaMoi = 'N' + RIGHT('0000' + CAST(@SoMoi AS VARCHAR(4)), 4);
 
     -- Thêm vào bảng
     INSERT INTO HDN (MaHDN, MaTH, NgayNhap, TongHD, MaNV)
-    VALUES (@MaMoi, @MaTH, @NgayNhap, @TongHD, @MaNV)
-
+    VALUES (@MaMoi, @MaTH, @NgayNhap, @TongHD, @MaNV);
 END
 GO
 --EXEC sp_ThemHDN
@@ -574,24 +586,111 @@ GO
 
 
 -----------------------------------------------------HDB-----------------------------------
+--CREATE PROCEDURE sp_ThemHDB
+--    @MaKH CHAR(10),
+--    @NgayBan DATE,
+--    @TongHD INT,
+--    @MaNV CHAR(10),
+--    @MaHDB CHAR(10) OUTPUT
+--AS
+--BEGIN
+--    SET NOCOUNT ON;
+--    BEGIN TRY
+--        BEGIN TRANSACTION;
+
+--        -- Kiểm tra đầu vào không được NULL
+--        IF @MaKH IS NULL OR @MaNV IS NULL
+--        BEGIN
+--            THROW 50001, 'Mã khách hàng hoặc mã nhân viên không được để trống.', 1;
+--            ROLLBACK TRANSACTION;
+--            RETURN;
+--        END
+
+--        -- Kiểm tra sự tồn tại của MaKH trong bảng KH
+--        IF NOT EXISTS (SELECT 1 FROM KH WHERE MaKH = @MaKH)
+--        BEGIN
+--            THROW 50002, 'Mã khách hàng không tồn tại trong hệ thống.', 1;
+--            ROLLBACK TRANSACTION;
+--            RETURN;
+--        END
+
+--        -- Kiểm tra sự tồn tại của MaNV trong bảng NV
+--        IF NOT EXISTS (SELECT 1 FROM NV WHERE MaNV = @MaNV)
+--        BEGIN
+--            THROW 50003, 'Mã nhân viên không tồn tại trong hệ thống.', 1;
+--            ROLLBACK TRANSACTION;
+--            RETURN;
+--        END
+
+--        DECLARE @MaMoi CHAR(10);
+--        -- Sinh mã tự động: B0001, B0002...
+--        SELECT @MaMoi = 'B' + RIGHT('0000' + CAST(ISNULL(MAX(CAST(SUBSTRING(MaHDB, 2, 4) AS INT)) + 1, 1) AS VARCHAR(4)), 4)
+--        FROM HDB WITH (UPDLOCK, SERIALIZABLE);
+
+--        -- Thêm vào bảng
+--        INSERT INTO HDB (MaHDB, MaKH, NgayBan, TongHD, MaNV)
+--        VALUES (@MaMoi, @MaKH, @NgayBan, @TongHD, @MaNV);
+
+--        -- Xác nhận chèn thành công
+--        IF @@ROWCOUNT = 0
+--        BEGIN
+--            THROW 50004, 'Không thể chèn hóa đơn vào bảng HDB.', 1;
+--            ROLLBACK TRANSACTION;
+--            RETURN;
+--        END
+
+--        -- Gán giá trị đầu ra
+--        SET @MaHDB = @MaMoi;
+
+--        COMMIT TRANSACTION;
+--    END TRY
+--    BEGIN CATCH
+--        IF @@TRANCOUNT > 0
+--            ROLLBACK TRANSACTION;
+--        THROW;
+--    END CATCH
+--END
+--GO
 -- PROCEDURE HDB
 CREATE PROCEDURE sp_ThemHDB
     @MaKH CHAR(10),
     @NgayBan DATE,
     @TongHD INT,
     @MaNV CHAR(10),
-    @MaHDB CHAR(10) 
+    @MaHDB CHAR(10) OUTPUT
 AS
 BEGIN
-	DECLARE @MaMoi CHAR(10)
-    -- Sinh mã tự động: B0001, B0002...
-    SELECT @MaMoi = 'B' + RIGHT('0000' + CAST(ISNULL(MAX(CAST(SUBSTRING(MaHDB, 2, 4) AS INT)) + 1, 1) AS VARCHAR), 4)
-    FROM HDB
+    SET NOCOUNT ON; -- Ngăn không trả về số hàng bị ảnh hưởng
+    BEGIN TRY
+        BEGIN TRANSACTION;
 
-    -- Thêm vào bảng
-    INSERT INTO HDB (MaHDB, MaKH, NgayBan, TongHD, MaNV)
-    VALUES (@MaMoi, @MaKH, @NgayBan, @TongHD, @MaNV)
+        -- Kiểm tra đầu vào
+        IF @MaKH IS NULL OR @MaNV IS NULL
+        BEGIN
+            THROW 50001, 'Mã khách hàng hoặc mã nhân viên không được để trống.', 1;
+            ROLLBACK TRANSACTION;
+            RETURN;
+        END
 
+        DECLARE @MaMoi CHAR(10);
+        -- Sinh mã tự động: B0001, B0002...
+        SELECT @MaMoi = 'B' + RIGHT('0000' + CAST(ISNULL(MAX(CAST(SUBSTRING(MaHDB, 2, 4) AS INT)) + 1, 1) AS VARCHAR(4)), 4)
+        FROM HDB WITH (UPDLOCK, SERIALIZABLE); -- Khóa bảng để tránh xung đột
+
+        -- Thêm vào bảng
+        INSERT INTO HDB (MaHDB, MaKH, NgayBan, TongHD, MaNV)
+        VALUES (@MaMoi, @MaKH, @NgayBan, @TongHD, @MaNV);
+
+        -- Gán giá trị đầu ra
+        SET @MaHDB = @MaMoi;
+
+        COMMIT TRANSACTION;
+    END TRY
+    BEGIN CATCH
+        IF @@TRANCOUNT > 0
+            ROLLBACK TRANSACTION;
+        THROW; -- Ném lỗi để ứng dụng xử lý
+    END CATCH
 END
 GO
 --EXEC sp_ThemHDB
@@ -599,7 +698,6 @@ GO
     --@NgayBan = {1},
     --@TongHD = {2},
     --@MaNV = {3},
-
 
 
 CREATE PROCEDURE sp_SuaHDB

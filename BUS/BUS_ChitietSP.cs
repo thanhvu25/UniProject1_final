@@ -47,6 +47,10 @@ namespace BUS
         {
             return dalCTSP.getMauForCombo();
         }
+        public string GetMaMauByTen(string tenMau)
+        {
+            return dalCTSP.GetMaMauByTen(tenMau);
+        }
         public int KiemTraMaMauTrung(DTO_ChiTietSP mau)
         {
             return dalCTSP.KiemTraMaMauTrung(mau);
@@ -59,6 +63,27 @@ namespace BUS
         {
             return dalCTSP.XoaMau(mau);
         }
+        public class BUS_Mau
+        {
+            DAL_ChiTietSP dalMau = new DAL_ChiTietSP();
+
+            private static BUS_Mau instance;
+            public static BUS_Mau Instance
+            {
+                get
+                {
+                    if (instance == null)
+                        instance = new BUS_Mau();
+                    return instance;
+                }
+            }
+
+            public string GetMaMauByTen(string tenMau)
+            {
+                return dalMau.GetMaMauByTen(tenMau);
+            }
+        }
+
 
         /// <summary>
         /// CHI TIẾT SẢN PHẨM

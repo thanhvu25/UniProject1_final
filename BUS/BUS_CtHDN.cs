@@ -17,6 +17,10 @@ namespace BUS
         {
             return dalcthdn.getCtHDN();
         }
+        public DataTable getCtHDNForHDN(string maHDN) 
+        {
+            return dalcthdn.getCtHDNForHDN(maHDN);
+        }
         public int KiemTraMaTrung(string maCTN)
         {
             return dalcthdn.KiemTraMaTrung(maCTN);

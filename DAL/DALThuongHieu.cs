@@ -16,6 +16,11 @@ namespace DAL
             string sql = "SELECT * FROM ThuongHieu";
             return ExecuteQuery(sql);
         }
+        public DataTable getTHForHDN()
+        {
+            string sql = "SELECT MaTH, TenTH FROM ThuongHieu";
+            return ExecuteQuery(sql);
+        }
 
         public int KiemTraMaTrung(string maTH)
         {

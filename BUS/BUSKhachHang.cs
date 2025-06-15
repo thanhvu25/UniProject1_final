@@ -25,6 +25,11 @@ namespace BUS
         {
             return dalKH.getKhachHang_HD(MaKH);
         }
+        public DataTable getKhachHangByLevel(string HangKH)
+        {
+            return dalKH.getKhachHangByLevel(HangKH);
+        }
+
         public int KiemTraMaTrung(string maKH)
         {
             return dalKH.KiemTraMaTrung(maKH);
@@ -41,5 +46,10 @@ namespace BUS
         {
             return dalKH.xoaKH(kh);
         }
+        public void CapNhatHangKH()
+        {
+            dalKH.CapNhatHangKhachHang();
+        }
+        
     }
 }

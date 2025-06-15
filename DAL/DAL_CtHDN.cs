@@ -13,8 +13,17 @@ namespace DAL
     {
         public DataTable getCtHDN()
         {
-            string sql = "SELECT * FROM ChitietHDN";
+            string sql = "SELECT ChiTietHDN.MaHDN, TenSP, SizeVN, TenMau, SL, ChiTietHDN.DonGia\r\nFROM ChiTietHDN\r\nINNER JOIN HDN ON HDN.MaHDN = ChiTietHDN.MaHDN\r\nINNER JOIN ThuongHieu ON HDN.MaTH = ThuongHieu.MaTH\r\nINNER JOIN SanPham ON ChiTietHDN.MaSP = SanPham.MaSP\r\nINNER JOIN MauSac ON ChiTietHDN.MaMau = MauSac.MaMau";
             return ExecuteQuery(sql);
+        }
+        public DataTable getCtHDNForHDN(string maHDN)
+        {
+            string sql = "SELECT ChiTietHDN.MaHDN, TenSP, SizeVN, TenMau, SL, ChiTietHDN.DonGia\r\nFROM ChiTietHDN\r\nINNER JOIN HDN ON HDN.MaHDN = ChiTietHDN.MaHDN\r\nINNER JOIN ThuongHieu ON HDN.MaTH = ThuongHieu.MaTH\r\nINNER JOIN SanPham ON ChiTietHDN.MaSP = SanPham.MaSP\r\nINNER JOIN MauSac ON ChiTietHDN.MaMau = MauSac.MaMau WHERE HDN.MaHDN = @MaHDN";
+            var parameters = new Dictionary<string, object>
+            {
+                { "@MaHDN", maHDN }
+            };
+            return ExecuteQuery(sql, parameters);
         }
 
         public int KiemTraMaTrung(string maCTN)
