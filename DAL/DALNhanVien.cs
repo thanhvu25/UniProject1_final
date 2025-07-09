@@ -11,13 +11,13 @@ namespace DAL
 {
     public class DALNhanVien : DBConnect
     {
-        public DataTable getNhanVien()
+        public virtual DataTable getNhanVien()
         {
             string sql = "SELECT * FROM NhanVien";
             return ExecuteQuery(sql);
         }
         
-        public int KiemTraMaTrung(string maNV)
+        public virtual int KiemTraMaTrung(string maNV)
         {
             string sql = "SELECT COUNT(*) FROM NhanVien WHERE MaNV = @MaNV";
             var parameters = new Dictionary<string, object>
@@ -27,7 +27,7 @@ namespace DAL
             return ExecuteScalar(sql, parameters);
         }
 
-        public bool themNV(DTONhanVien nv)
+        public virtual bool themNV(DTONhanVien nv)
         {
             string sql = "EXEC sp_ThemNhanVien @TenNV, @GioiTinh, @DiaChi, @Sdt, @VaiTro, @LuongCB";
             var parameters = new Dictionary<string, object>
@@ -42,7 +42,7 @@ namespace DAL
             return ExecuteNonQuery(sql, parameters);
         }
 
-        public bool suaNV(DTONhanVien nv)
+        public virtual bool suaNV(DTONhanVien nv)
         {
             string sql = "EXEC sp_SuaNhanVien @MaNV, @TenNV, @GioiTinh, @DiaChi, @Sdt, @VaiTro, @LuongCB";
             var parameters = new Dictionary<string, object>
@@ -58,7 +58,7 @@ namespace DAL
             return ExecuteNonQuery(sql, parameters);
         }
 
-        public bool xoaNV(DTONhanVien nv)
+        public virtual bool xoaNV(DTONhanVien nv)
         {
             string sql = "EXEC sp_XoaNhanVien @MaNV";
             var parameters = new Dictionary<string, object>

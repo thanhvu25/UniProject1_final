@@ -465,19 +465,6 @@
         "runtime": {
           "bin/placeholder/DTO.dll": {}
         }
-      },
-      "GUI/1.0.0": {
-        "type": "project",
-        "dependencies": {
-          "BUS": "1.0.0",
-          "DTO": "1.0.0"
-        },
-        "compile": {
-          "bin/placeholder/GUI.dll": {}
-        },
-        "runtime": {
-          "bin/placeholder/GUI.dll": {}
-        }
       }
     }
   },
@@ -1158,11 +1145,6 @@
       "type": "project",
       "path": "../DTO/DTO.csproj",
       "msbuildProject": "../DTO/DTO.csproj"
-    },
-    "GUI/1.0.0": {
-      "type": "project",
-      "path": "../DA1/GUI.csproj",
-      "msbuildProject": "../DA1/GUI.csproj"
     }
   },
   "projectFileDependencyGroups": {
@@ -1170,7 +1152,6 @@
       "BUS >= 1.0.0",
       "DAL >= 1.0.0",
       "DTO >= 1.0.0",
-      "GUI >= 1.0.0",
       "Microsoft.NET.Test.Sdk >= 17.8.0",
       "Moq >= 4.20.72",
       "NUnit >= 3.14.0",
@@ -1213,9 +1194,6 @@
           "projectReferences": {
             "D:\\DATA\\_DA\\DA1 - Copy\\BUS\\BUS.csproj": {
               "projectPath": "D:\\DATA\\_DA\\DA1 - Copy\\BUS\\BUS.csproj"
-            },
-            "D:\\DATA\\_DA\\DA1 - Copy\\DA1\\GUI.csproj": {
-              "projectPath": "D:\\DATA\\_DA\\DA1 - Copy\\DA1\\GUI.csproj"
             },
             "D:\\DATA\\_DA\\DA1 - Copy\\DAL\\DAL.csproj": {
               "projectPath": "D:\\DATA\\_DA\\DA1 - Copy\\DAL\\DAL.csproj"

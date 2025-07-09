@@ -30,7 +30,7 @@ namespace BUS
         {
             return dalcthdb.getCtHDB();
         }
-<<<<<<< HEAD
+
         public DataTable getCTHDBForHDB(string maHDB)
         {
             return dalcthdb.getCTHDBForHDB(maHDB);
@@ -40,12 +40,12 @@ namespace BUS
         {
             return dalcthdb.getCtHDBByMaHDB(maHDB);
         }
-=======
-        public DataTable getCtHDBByMaHDB(string maHDB)
-        {
-            return dalcthdb.getCtHDBByMaHDB(maHDB);
-        }
->>>>>>> a67220a4f4aec0f6fa333ec273d882b6a756ac55
+
+//        public DataTable getCtHDBByMaHDB(string maHDB)
+//        {
+//            return dalcthdb.getCtHDBByMaHDB(maHDB);
+//        }
+//>>>>>>> a67220a4f4aec0f6fa333ec273d882b6a756ac55
         public DataTable getHDBForHD(string maHDB)
         {
             return dalcthdb.getHDBForHD(maHDB);

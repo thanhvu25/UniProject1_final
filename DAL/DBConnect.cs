@@ -99,11 +99,10 @@ namespace DAL
             }
         }
 
-<<<<<<< HEAD
-        public DataTable ExecuteQuery(string sql, Dictionary<string, object> parameters = null) 
-=======
+//<<<<<<< HEAD
+//        public DataTable ExecuteQuery(string sql, Dictionary<string, object> parameters = null) 
+//=======
         public DataTable ExecuteQuery(string sql, Dictionary<string, object> parameters = null)
->>>>>>> a67220a4f4aec0f6fa333ec273d882b6a756ac55
         {
             try
             {
@@ -162,7 +161,7 @@ namespace DAL
             }
 
         }
-<<<<<<< HEAD
+
         public SqlDataReader ExecuteReader(string query, Dictionary<string, object> parameters)
         {
             try
@@ -193,8 +192,6 @@ namespace DAL
             }
             
         }
-=======
->>>>>>> a67220a4f4aec0f6fa333ec273d882b6a756ac55
 
     }
 

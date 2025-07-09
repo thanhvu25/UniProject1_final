@@ -20,7 +20,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\BUS\BUS.csproj" />
-    <ProjectReference Include="..\DA1\GUI.csproj" />
     <ProjectReference Include="..\DAL\DAL.csproj" />
     <ProjectReference Include="..\DTO\DTO.csproj" />
   </ItemGroup>

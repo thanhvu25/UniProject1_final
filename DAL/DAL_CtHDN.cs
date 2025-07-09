@@ -18,11 +18,9 @@ namespace DAL
         }
         public DataTable getCtHDNForHDN(string maHDN)
         {
-<<<<<<< HEAD
+
             string sql = "SELECT ChiTietHDN.MaHDN, TenSP, SizeVN, TenMau, SL, ChiTietHDN.DonGia\r\nFROM ChiTietHDN\r\nINNER JOIN HDN ON HDN.MaHDN = ChiTietHDN.MaHDN\r\nINNER JOIN ThuongHieu ON HDN.MaTH = ThuongHieu.MaTH\r\nINNER JOIN SanPham ON ChiTietHDN.MaSP = SanPham.MaSP\r\nINNER JOIN MauSac ON ChiTietHDN.MaMau = MauSac.MaMau WHERE HDN.MaHDN = @MaHDN";
-=======
-            string sql = "SELECT * FROM ChitietHDN WHERE MaHDN = @MaHDN";
->>>>>>> a67220a4f4aec0f6fa333ec273d882b6a756ac55
+
             var parameters = new Dictionary<string, object>
             {
                 { "@MaHDN", maHDN }

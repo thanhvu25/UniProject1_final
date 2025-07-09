@@ -26,17 +26,6 @@ D:\DATA\_DA\DA1\BUS\obj\Debug\BUS.csproj.CoreCompileInputs.cache
 D:\DATA\_DA\DA1\BUS\obj\Debug\BUS.csproj.Up2Date
 D:\DATA\_DA\DA1\BUS\obj\Debug\BUS.dll
 D:\DATA\_DA\DA1\BUS\obj\Debug\BUS.pdb
-D:\DATA\_DA\DA1 - Copy\BUS\bin\Debug\BUS.dll
-D:\DATA\_DA\DA1 - Copy\BUS\bin\Debug\BUS.pdb
-D:\DATA\_DA\DA1 - Copy\BUS\bin\Debug\DAL.dll
-D:\DATA\_DA\DA1 - Copy\BUS\bin\Debug\DTO.dll
-D:\DATA\_DA\DA1 - Copy\BUS\bin\Debug\DAL.pdb
-D:\DATA\_DA\DA1 - Copy\BUS\bin\Debug\DTO.pdb
-D:\DATA\_DA\DA1 - Copy\BUS\obj\Debug\BUS.csproj.AssemblyReference.cache
-D:\DATA\_DA\DA1 - Copy\BUS\obj\Debug\BUS.csproj.CoreCompileInputs.cache
-D:\DATA\_DA\DA1 - Copy\BUS\obj\Debug\BUS.csproj.Up2Date
-D:\DATA\_DA\DA1 - Copy\BUS\obj\Debug\BUS.dll
-D:\DATA\_DA\DA1 - Copy\BUS\obj\Debug\BUS.pdb
 D:\DATA\_DA\DA1 - Copy\BUS\bin\Debug\NUnit3.TestAdapter.pdb
 D:\DATA\_DA\DA1 - Copy\BUS\bin\Debug\nunit.engine.dll
 D:\DATA\_DA\DA1 - Copy\BUS\bin\Debug\nunit.engine.api.dll
@@ -44,6 +33,10 @@ D:\DATA\_DA\DA1 - Copy\BUS\bin\Debug\nunit.engine.core.dll
 D:\DATA\_DA\DA1 - Copy\BUS\bin\Debug\testcentric.engine.metadata.dll
 D:\DATA\_DA\DA1 - Copy\BUS\bin\Debug\NUnit3.TestAdapter.dll
 D:\DATA\_DA\DA1 - Copy\BUS\bin\Debug\BUS.dll.config
+D:\DATA\_DA\DA1 - Copy\BUS\bin\Debug\BUS.dll
+D:\DATA\_DA\DA1 - Copy\BUS\bin\Debug\BUS.pdb
+D:\DATA\_DA\DA1 - Copy\BUS\bin\Debug\DAL.dll
+D:\DATA\_DA\DA1 - Copy\BUS\bin\Debug\DTO.dll
 D:\DATA\_DA\DA1 - Copy\BUS\bin\Debug\Microsoft.ApplicationInsights.dll
 D:\DATA\_DA\DA1 - Copy\BUS\bin\Debug\Microsoft.Testing.Extensions.MSBuild.dll
 D:\DATA\_DA\DA1 - Copy\BUS\bin\Debug\Microsoft.Testing.Extensions.Telemetry.dll
@@ -65,7 +58,9 @@ D:\DATA\_DA\DA1 - Copy\BUS\bin\Debug\System.Reflection.Metadata.dll
 D:\DATA\_DA\DA1 - Copy\BUS\bin\Debug\System.Runtime.CompilerServices.Unsafe.dll
 D:\DATA\_DA\DA1 - Copy\BUS\bin\Debug\System.Threading.Tasks.Extensions.dll
 D:\DATA\_DA\DA1 - Copy\BUS\bin\Debug\System.ValueTuple.dll
+D:\DATA\_DA\DA1 - Copy\BUS\bin\Debug\DAL.pdb
 D:\DATA\_DA\DA1 - Copy\BUS\bin\Debug\DAL.dll.config
+D:\DATA\_DA\DA1 - Copy\BUS\bin\Debug\DTO.pdb
 D:\DATA\_DA\DA1 - Copy\BUS\bin\Debug\DTO.dll.config
 D:\DATA\_DA\DA1 - Copy\BUS\bin\Debug\Microsoft.ApplicationInsights.pdb
 D:\DATA\_DA\DA1 - Copy\BUS\bin\Debug\Microsoft.ApplicationInsights.xml
@@ -163,3 +158,8 @@ D:\DATA\_DA\DA1 - Copy\BUS\bin\Debug\ru\Microsoft.VisualStudio.TestPlatform.Obje
 D:\DATA\_DA\DA1 - Copy\BUS\bin\Debug\tr\Microsoft.VisualStudio.TestPlatform.ObjectModel.resources.dll
 D:\DATA\_DA\DA1 - Copy\BUS\bin\Debug\zh-Hans\Microsoft.VisualStudio.TestPlatform.ObjectModel.resources.dll
 D:\DATA\_DA\DA1 - Copy\BUS\bin\Debug\zh-Hant\Microsoft.VisualStudio.TestPlatform.ObjectModel.resources.dll
+D:\DATA\_DA\DA1 - Copy\BUS\obj\Debug\BUS.csproj.AssemblyReference.cache
+D:\DATA\_DA\DA1 - Copy\BUS\obj\Debug\BUS.csproj.CoreCompileInputs.cache
+D:\DATA\_DA\DA1 - Copy\BUS\obj\Debug\BUS.csproj.Up2Date
+D:\DATA\_DA\DA1 - Copy\BUS\obj\Debug\BUS.dll
+D:\DATA\_DA\DA1 - Copy\BUS\obj\Debug\BUS.pdb
